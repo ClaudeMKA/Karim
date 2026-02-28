@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noor - Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   VARIABLES
+   ============================================ */
+:root {
+  --bg-primary: #050507;
+  --bg-card: #131318;
+  --bg-card-hover: #1a1a22;
+  --bg-input: #16161e;
+  --border-subtle: rgba(255,255,255,0.06);
+  --gold-primary: #d4af55;
+  --gold-light: #e8cc7a;
+  --gold-dark: #b8942e;
+  --gold-gradient: linear-gradient(135deg, #d4af55 0%, #f0d78c 50%, #d4af55 100%);
+  --gold-glow: rgba(212,175,85,0.15);
+  --green-primary: #4ecca3;
+  --green-dark: #2ea37d;
+  --purple-primary: #8b5cf6;
+  --blue-primary: #3b82f6;
+  --orange-primary: #f59e0b;
+  --red-primary: #ef4444;
+  --text-primary: #f5f5f7;
+  --text-secondary: #8e8e93;
+  --text-tertiary: #555560;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 50px;
+  --font-main: 'Inter', -apple-system, sans-serif;
+  --font-arabic: 'Amiri', serif;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.15s ease;
+}
+
+*, *::before, *::after {
+    margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+  font-family: var(--font-main);
+  background: #0a0a0f;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   PHONE FRAME
+   ============================================ */
+.phone-frame {
+  width: 393px; height: 852px;
+  background: var(--bg-primary);
+  border-radius: 55px; border: 3px solid #1c1c24;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(212,175,85,0.03);
+}
+
+.dynamic-island {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 126px; height: 36px; background: #000; border-radius: 20px; z-index: 50;
+}
+
+.home-indicator {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 134px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.15); z-index: 50;
+}
+
+/* ============================================
+   STATUS BAR
+   ============================================ */
+.status-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 28px 0; height: 58px; font-size: 16px; font-weight: 600;
+  position: relative; z-index: 40;
+}
+
+.status-icons { display: flex; align-items: center; gap: 5px; }
+.status-icons svg { width: 18px; height: 18px; }
+
+/* ============================================
+   MAIN SCROLL AREA
+   ============================================ */
+.main-scroll {
+  position: absolute; top: 0; left: 0; width: 100%;
+  height: calc(100% - 80px);
+  overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: none;
+  padding-bottom: 20px;
+}
+
+.main-scroll::-webkit-scrollbar { display: none; }
+
+/* ============================================
+   TOP HEADER
+   ============================================ */
+.top-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 22px 0;
+}
+
+.user-section {
+  display: flex; align-items: center; gap: 12px;
+}
+
+.user-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+  border: 2px solid rgba(212,175,85,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700;
+  color: var(--gold-primary);
+}
+
+.user-info .greeting {
+  font-size: 12px; color: var(--text-tertiary); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.user-info .user-name {
+  font-size: 18px; font-weight: 700; margin-top: 1px;
+}
+
+.user-info .user-name span { color: var(--gold-primary); }
+
+.header-actions {
+  display: flex; gap: 8px;
+}
+
+.header-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-secondary); transition: var(--transition-fast);
+  position: relative;
+}
+
+.header-btn:active { background: var(--bg-card-hover); transform: scale(0.93); }
+.header-btn svg { width: 20px; height: 20px; }
+
+.notif-dot {
+  position: absolute; top: 8px; right: 8px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red-primary);
+  border: 2px solid var(--bg-primary);
+}
+
+/* ============================================
+   NEXT PRAYER HERO
+   ============================================ */
+.prayer-hero {
+  margin: 16px 18px 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, #151520, #0f0f18);
+  border: 1px solid rgba(212,175,85,0.1);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.prayer-hero::before {
+  content: '';
+  position: absolute; top: -60px; right: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(212,175,85,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.prayer-hero::after {
+  content: '';
+  position: absolute; bottom: -40px; left: -20px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(78,204,163,0.05) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.prayer-hero-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  position: relative; z-index: 2;
+}
+
+.prayer-hero-label {
+  font-size: 12px; color: var(--text-tertiary); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;
+}
+
+.prayer-hero-name {
+  font-size: 28px; font-weight: 800; letter-spacing: -0.3px;
+}
+
+.prayer-hero-name .ar {
+  font-family: var(--font-arabic); font-size: 20px; color: var(--gold-primary);
+  font-weight: 400; margin-left: 10px; opacity: 0.8;
+}
+
+.prayer-hero-time {
+  text-align: right;
+}
+
+.prayer-time-big {
+  font-size: 32px; font-weight: 800; letter-spacing: -1px;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.prayer-time-period {
+  font-size: 13px; color: var(--text-tertiary); font-weight: 500;
+}
+
+.prayer-countdown {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 16px; position: relative; z-index: 2;
+}
+
+.countdown-bar {
+  flex: 1; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+
+.countdown-fill {
+  width: 65%;
+  height: 100%; border-radius: 2px;
+  background: var(--gold-gradient);
+  transition: width 1s linear;
+}
+
+.countdown-text {
+  font-size: 13px; font-weight: 600; color: var(--gold-primary);
+  white-space: nowrap;
+}
+
+/* ============================================
+   DAILY PRAYERS LIST
+   ============================================ */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 22px 12px;
+}
+
+.section-title {
+  font-size: 18px; font-weight: 700;
+}
+
+.section-link {
+  font-size: 13px; font-weight: 600; color: var(--gold-primary);
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-main); transition: var(--transition-fast);
+}
+
+.section-link:active { color: var(--gold-light); }
+
+.prayers-row {
+  display: flex; gap: 8px;
+  padding: 0 18px;
+  overflow-x: auto; scrollbar-width: none;
+}
+
+.prayers-row::-webkit-scrollbar { display: none; }
+
+.prayer-chip {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 64px; padding: 12px 8px;
+  border-radius: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: var(--transition);
+  cursor: pointer;
+  gap: 6px;
+}
+
+.prayer-chip.active {
+  background: rgba(212,175,85,0.08);
+  border-color: rgba(212,175,85,0.25);
+  box-shadow: 0 0 20px rgba(212,175,85,0.06);
+}
+
+.prayer-chip.done {
+  background: rgba(78,204,163,0.06);
+  border-color: rgba(78,204,163,0.15);
+}
+
+.prayer-chip-icon {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+.prayer-chip.active .prayer-chip-icon {
+  background: rgba(212,175,85,0.15);
+}
+
+.prayer-chip.done .prayer-chip-icon {
+  background: rgba(78,204,163,0.15);
+}
+
+.prayer-chip-name {
+  font-size: 11px; font-weight: 600; color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.prayer-chip.active .prayer-chip-name { color: var(--gold-primary); }
+.prayer-chip.done .prayer-chip-name { color: var(--green-primary); }
+
+.prayer-chip-time {
+  font-size: 11px; font-weight: 700; color: var(--text-primary);
+}
+
+.prayer-chip.done .prayer-chip-time { color: var(--green-primary); }
+
+.check-done {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--green-primary);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.check-done svg { width: 10px; height: 10px; color: #050507; }
+
+/* ============================================
+   WEEKLY PROGRESS
+   ============================================ */
+.progress-card {
+  margin: 0 18px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 20px;
+}
+
+.progress-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+
+.progress-title {
+  font-size: 15px; font-weight: 600;
+}
+
+.progress-badge {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: var(--radius-full);
+  background: rgba(78,204,163,0.1);
+  border: 1px solid rgba(78,204,163,0.15);
+  font-size: 12px; font-weight: 600; color: var(--green-primary);
+}
+
+.progress-badge svg { width: 12px; height: 12px; }
+
+.week-grid {
+  display: flex; justify-content: space-between; gap: 4px;
+}
+
+.day-col {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  flex: 1;
+}
+
+.day-label {
+  font-size: 11px; font-weight: 600; color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.day-dot {
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: var(--transition);
+}
+
+.day-dot.full { background: var(--green-primary); border-color: var(--green-primary); }
+.day-dot.partial { background: var(--orange-primary); border-color: var(--orange-primary); opacity: 0.7; }
+.day-dot.missed { background: rgba(239,68,68,0.3); border-color: rgba(239,68,68,0.3); }
+.day-dot.empty { background: rgba(255,255,255,0.03); }
+
+.day-today {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gold-primary); margin-top: 4px;
+}
+
+.progress-legend {
+  display: flex; gap: 16px; margin-top: 14px;
+  padding-top: 12px; border-top: 1px solid var(--border-subtle);
+}
+
+.legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--text-tertiary);
+}
+
+.legend-dot {
+  width: 10px; height: 10px; border-radius: 3px;
+}
+
+/* ============================================
+   QUICK WIDGETS ROW
+   ============================================ */
+.widgets-row {
+  display: flex; gap: 10px;
+  padding: 0 18px;
+  overflow-x: auto; scrollbar-width: none;
+}
+
+.widgets-row::-webkit-scrollbar { display: none; }
+
+.widget-card {
+  min-width: 155px; flex: 1;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.widget-card:active { transform: scale(0.97); }
+
+.widget-card::before {
+  content: '';
+  position: absolute; top: -30px; right: -20px;
+  width: 80px; height: 80px;
+  border-radius: 50%; opacity: 0.08;
+}
+
+.widget-dhikr::before { background: var(--green-primary); }
+.widget-quran::before { background: var(--gold-primary); }
+.widget-hadith::before { background: var(--purple-primary); }
+
+.widget-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+
+.widget-dhikr .widget-icon { background: rgba(78,204,163,0.12); }
+.widget-quran .widget-icon { background: rgba(212,175,85,0.12); }
+.widget-hadith .widget-icon { background: rgba(139,92,246,0.12); }
+
+.widget-icon svg { width: 20px; height: 20px; }
+
+.widget-label {
+  font-size: 11px; font-weight: 600; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+}
+
+.widget-value {
+  font-size: 14px; font-weight: 600; color: var(--text-primary);
+  line-height: 1.3; margin-bottom: 10px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.widget-action {
+  font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px;
+}
+
+.widget-dhikr .widget-action { color: var(--green-primary); }
+.widget-quran .widget-action { color: var(--gold-primary); }
+.widget-hadith .widget-action { color: var(--purple-primary); }
+
+.widget-action svg { width: 14px; height: 14px; }
+
+/* ============================================
+   VERSE OF THE DAY
+   ============================================ */
+.verse-card {
+  margin: 0 18px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, #12121a, #0e0e16);
+  border: 1px solid rgba(212,175,85,0.1);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.verse-card::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(212,175,85,0.06) 0%, transparent 70%);
+}
+
+.verse-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; position: relative; z-index: 2;
+}
+
+.verse-badge {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: var(--radius-full);
+  background: rgba(212,175,85,0.1);
+  border: 1px solid rgba(212,175,85,0.15);
+  font-size: 11px; font-weight: 600; color: var(--gold-primary);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.verse-badge svg { width: 14px; height: 14px; }
+
+.verse-actions {
+  display: flex; gap: 6px;
+}
+
+.verse-action-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-subtle);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-tertiary);
+  transition: var(--transition-fast);
+}
+
+.verse-action-btn:active { color: var(--gold-primary); background: rgba(212,175,85,0.08); }
+.verse-action-btn svg { width: 16px; height: 16px; }
+
+.verse-arabic {
+  font-family: var(--font-arabic);
+  font-size: 22px; line-height: 1.8;
+  color: var(--gold-light); direction: rtl;
+  text-align: center; margin-bottom: 14px;
+  position: relative; z-index: 2;
+}
+
+.verse-translation {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.6; text-align: center;
+  font-style: italic; margin-bottom: 10px;
+  position: relative; z-index: 2;
+}
+
+.verse-ref {
+  font-size: 12px; color: var(--text-tertiary);
+  text-align: center; font-weight: 500;
+  position: relative; z-index: 2;
+}
+
+.verse-ref span { color: var(--gold-primary); font-weight: 600; }
+
+/* ============================================
+   HADITH OF THE DAY
+   ============================================ */
+.hadith-card {
+  margin: 0 18px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid rgba(139,92,246,0.1);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hadith-card::before {
+  content: '';
+  position: absolute; top: -30px; left: -20px;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+}
+
+.hadith-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: var(--radius-full);
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.15);
+  font-size: 11px; font-weight: 600; color: #a78bfa;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  margin-bottom: 14px; position: relative; z-index: 2;
+}
+
+.hadith-badge svg { width: 14px; height: 14px; }
+
+.hadith-text {
+  font-size: 14px; color: var(--text-primary);
+  line-height: 1.65; margin-bottom: 12px;
+  position: relative; z-index: 2;
+}
+
+.hadith-text::before {
+  content: '\201C'; font-size: 40px; color: rgba(139,92,246,0.2);
+  font-family: Georgia, serif; line-height: 1;
+  position: absolute; top: -10px; left: -4px;
+}
+
+.hadith-source {
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 2;
+}
+
+.hadith-ref {
+  font-size: 12px; color: var(--text-tertiary); font-weight: 500;
+}
+
+.hadith-ref span { color: #a78bfa; font-weight: 600; }
+
+.hadith-auth {
+  font-size: 11px; padding: 3px 10px; border-radius: var(--radius-full);
+  background: rgba(78,204,163,0.1); color: var(--green-primary);
+  font-weight: 600;
+}
+
+/* ============================================
+   STREAK / STATS
+   ============================================ */
+.stats-row {
+  display: flex; gap: 10px;
+  padding: 0 18px;
+}
+
+.stat-card {
+  flex: 1;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 28px; font-weight: 800; letter-spacing: -1px;
+  margin-bottom: 2px;
+}
+
+.stat-number.gold {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.stat-number.green { color: var(--green-primary); }
+.stat-number.purple { color: var(--purple-primary); }
+
+.stat-label {
+  font-size: 11px; color: var(--text-tertiary); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.stat-sub {
+  font-size: 11px; color: var(--text-tertiary); margin-top: 4px;
+  display: flex; align-items: center; justify-content: center; gap: 3px;
+}
+
+.stat-sub.up { color: var(--green-primary); }
+
+.stat-sub svg { width: 12px; height: 12px; }
+
+/* ============================================
+   BOTTOM NAVIGATION
+   ============================================ */
+.bottom-nav {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  height: 80px;
+  background: linear-gradient(to top, var(--bg-primary) 60%, transparent);
+  display: flex; align-items: flex-end;
+  padding: 0 8px 26px;
+  z-index: 40;
+}
+
+.nav-inner {
+  width: 100%; display: flex; justify-content: space-around; align-items: center;
+  background: rgba(19,19,24,0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 8px 4px;
+  margin: 0 8px;
+}
+
+.nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 3px; padding: 6px 10px;
+  cursor: pointer; transition: var(--transition-fast);
+  border-radius: 12px; min-width: 52px;
+  background: none; border: none; font-family: var(--font-main);
+}
+
+.nav-item:active { transform: scale(0.92); }
+
+.nav-item svg { width: 22px; height: 22px; color: var(--text-tertiary); transition: var(--transition-fast); }
+
+.nav-item span {
+  font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+  transition: var(--transition-fast);
+}
+
+.nav-item.active {
+  background: rgba(212,175,85,0.08);
+}
+
+.nav-item.active svg { color: var(--gold-primary); }
+.nav-item.active span { color: var(--gold-primary); }
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.anim > * {
+  opacity: 0; animation: fadeUp 0.5s ease-out forwards;
+}
+.anim > *:nth-child(1) { animation-delay: 0.04s; }
+.anim > *:nth-child(2) { animation-delay: 0.08s; }
+.anim > *:nth-child(3) { animation-delay: 0.12s; }
+.anim > *:nth-child(4) { animation-delay: 0.16s; }
+.anim > *:nth-child(5) { animation-delay: 0.20s; }
+.anim > *:nth-child(6) { animation-delay: 0.24s; }
+.anim > *:nth-child(7) { animation-delay: 0.28s; }
+.anim > *:nth-child(8) { animation-delay: 0.32s; }
+.anim > *:nth-child(9) { animation-delay: 0.36s; }
+.anim > *:nth-child(10) { animation-delay: 0.40s; }
+.anim > *:nth-child(11) { animation-delay: 0.44s; }
+.anim > *:nth-child(12) { animation-delay: 0.48s; }
+.anim > *:nth-child(13) { animation-delay: 0.52s; }
+
+.maquette-label {
+  text-align: center; margin-top: 24px; font-size: 13px;
+  color: #555; font-family: var(--font-main);
+}
+.maquette-label strong { color: var(--gold-primary); }
+
+/* ============================================
+   PLUS MENU OVERLAY
+   ============================================ */
+.plus-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 110px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.plus-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.plus-overlay-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold-primary);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.35s ease 0.1s;
+}
+
+.plus-overlay.active .plus-overlay-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.plus-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px 16px;
+  padding: 0 28px;
+  width: 100%;
+}
+
+.plus-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  opacity: 0;
+  transform: scale(0.7) translateY(20px);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.plus-overlay.active .plus-grid-item {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.plus-overlay.active .plus-grid-item:nth-child(1) { transition-delay: 0.05s; }
+.plus-overlay.active .plus-grid-item:nth-child(2) { transition-delay: 0.08s; }
+.plus-overlay.active .plus-grid-item:nth-child(3) { transition-delay: 0.11s; }
+.plus-overlay.active .plus-grid-item:nth-child(4) { transition-delay: 0.14s; }
+.plus-overlay.active .plus-grid-item:nth-child(5) { transition-delay: 0.17s; }
+.plus-overlay.active .plus-grid-item:nth-child(6) { transition-delay: 0.20s; }
+.plus-overlay.active .plus-grid-item:nth-child(7) { transition-delay: 0.23s; }
+.plus-overlay.active .plus-grid-item:nth-child(8) { transition-delay: 0.26s; }
+
+.plus-grid-item:active {
+  transform: scale(0.9);
+}
+
+.plus-icon-circle {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1.5px solid rgba(212,175,85,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.plus-grid-item:active .plus-icon-circle {
+  border-color: var(--gold-primary);
+  background: rgba(212,175,85,0.1);
+  box-shadow: 0 0 20px rgba(212,175,85,0.15);
+}
+
+.plus-icon-circle svg {
+  width: 24px; height: 24px;
+}
+
+.plus-grid-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.plus-close-btn {
+  margin-top: 28px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  opacity: 0;
+  transform: scale(0.7) rotate(-90deg);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+}
+
+.plus-overlay.active .plus-close-btn {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.plus-close-btn:active {
+  background: rgba(255,255,255,0.15);
+  color: var(--text-primary);
+  transform: scale(0.9);
+}
+
+.plus-close-btn svg {
+  width: 22px; height: 22px;
+}
+
+/* Center Plus button in nav */
+.nav-item-plus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-main);
+  padding: 0;
+  margin-top: -22px;
+  transition: var(--transition-fast);
+}
+
+.nav-item-plus:active { transform: scale(0.9); }
+
+.nav-plus-circle {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(212,175,85,0.3), 0 0 0 3px rgba(212,175,85,0.1);
+  transition: all 0.3s ease;
+}
+
+.nav-plus-circle svg {
+  width: 24px; height: 24px;
+  color: #050507;
+  transition: transform 0.3s ease;
+}
+
+.nav-item-plus.open .nav-plus-circle svg {
+  transform: rotate(45deg);
+}
+
+.nav-item-plus span {
+  font-size: 10px; font-weight: 600; color: var(--text-tertiary);
+}
+</style>
+</head>
+<body>
+
+<div>
+<div class="phone-frame">
+  <div class="dynamic-island"></div>
+  <div class="home-indicator"></div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-scroll anim">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span>23:45</span>
+      <div class="status-icons">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.24 4.24 0 00-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.34C7 21.4 7.6 22 8.33 22h7.34c.73 0 1.33-.6 1.33-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+      </div>
+    </div>
+
+    <!-- Top Header -->
+    <div class="top-header">
+      <div class="user-section">
+        <div class="user-avatar">K</div>
+        <div class="user-info">
+          <div class="greeting">Assalamu Alaykum</div>
+          <div class="user-name"><span>Karim</span></div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <button class="header-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <div class="notif-dot"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Next Prayer Hero -->
+    <div class="prayer-hero" onclick="window.location.href='../prayer/prayer.html'" style="cursor:pointer;">
+      <div class="prayer-hero-top">
+        <div>
+          <div class="prayer-hero-label">Prochaine priere</div>
+          <div class="prayer-hero-name">
+            Maghrib
+            <span class="ar">المغرب</span>
+          </div>
+        </div>
+        <div class="prayer-hero-time">
+          <div class="prayer-time-big">18:32</div>
+          <div class="prayer-time-period">Aujourd'hui</div>
+        </div>
+      </div>
+      <div class="prayer-countdown">
+        <div class="countdown-bar">
+          <div class="countdown-fill"></div>
+        </div>
+        <div class="countdown-text">1h 47min</div>
+      </div>
+    </div>
+
+    <!-- Prayers of the day -->
+    <div class="section-header">
+      <h3 class="section-title">Prieres du jour</h3>
+      <button class="section-link" onclick="window.location.href='../prayer/prayer.html'">Voir tout</button>
+    </div>
+
+    <div class="prayers-row">
+      <div class="prayer-chip done">
+        <div class="prayer-chip-icon">
+          <div class="check-done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="prayer-chip-name">Fajr</div>
+        <div class="prayer-chip-time">05:48</div>
+      </div>
+      <div class="prayer-chip done">
+        <div class="prayer-chip-icon">
+          <div class="check-done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="prayer-chip-name">Dhuhr</div>
+        <div class="prayer-chip-time">12:35</div>
+      </div>
+      <div class="prayer-chip done">
+        <div class="prayer-chip-icon">
+          <div class="check-done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="prayer-chip-name">Asr</div>
+        <div class="prayer-chip-time">15:52</div>
+      </div>
+      <div class="prayer-chip active">
+        <div class="prayer-chip-icon" style="font-size:16px">&#x1F54C;</div>
+        <div class="prayer-chip-name">Maghrib</div>
+        <div class="prayer-chip-time">18:32</div>
+      </div>
+      <div class="prayer-chip">
+        <div class="prayer-chip-icon" style="font-size:14px; color: var(--text-tertiary);">&#x1F319;</div>
+        <div class="prayer-chip-name">Isha</div>
+        <div class="prayer-chip-time">20:05</div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="section-header">
+      <h3 class="section-title">Vos statistiques</h3>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number gold">12</div>
+        <div class="stat-label">Jours streak</div>
+        <div class="stat-sub up">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          +3
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number green">87%</div>
+        <div class="stat-label">Prieres</div>
+        <div class="stat-sub">cette semaine</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number purple">24</div>
+        <div class="stat-label">Dhikr</div>
+        <div class="stat-sub">aujourd'hui</div>
+      </div>
+    </div>
+
+    <!-- Weekly Progress -->
+    <div class="section-header">
+      <h3 class="section-title">Suivi hebdomadaire</h3>
+      <button class="section-link" onclick="window.location.href='../prayer/prayer.html'">Details</button>
+    </div>
+
+    <div class="progress-card">
+      <div class="progress-top">
+        <div class="progress-title">Semaine du 24 Fev</div>
+        <div class="progress-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          +15%
+        </div>
+      </div>
+      <div class="week-grid">
+        <div class="day-col">
+          <div class="day-label">L</div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">M</div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot partial"></div>
+          <div class="day-dot full"></div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">M</div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot missed"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">J</div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">V</div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot full"></div>
+          <div class="day-dot partial"></div>
+          <div class="day-today"></div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">S</div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+        </div>
+        <div class="day-col">
+          <div class="day-label">D</div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+          <div class="day-dot empty"></div>
+        </div>
+      </div>
+      <div class="progress-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green-primary)"></div> 5/5</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--orange-primary);opacity:0.7"></div> Partiel</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,0.3)"></div> Manque</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.06)"></div> A venir</div>
+      </div>
+    </div>
+
+    <!-- Widgets -->
+    <div class="section-header">
+      <h3 class="section-title">Votre journee</h3>
+    </div>
+
+    <div class="widgets-row">
+      <div class="widget-card widget-dhikr" onclick="window.location.href='../dhikr/dhikr.html'">
+        <div class="widget-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4ecca3" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <div class="widget-label">Dhikr du matin</div>
+        <div class="widget-value">Adhkar As-Sabah</div>
+        <div class="widget-action">
+          Commencer
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+      <div class="widget-card widget-quran" onclick="window.location.href='../quran/quran.html'">
+        <div class="widget-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="2" stroke-linecap="round">
+            <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+          </svg>
+        </div>
+        <div class="widget-label">Coran du jour</div>
+        <div class="widget-value">Sourate Al-Kahf</div>
+        <div class="widget-action">
+          Lire
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+      <div class="widget-card widget-hadith" onclick="window.location.href='../hadith/hadith.html'">
+        <div class="widget-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+        <div class="widget-label">Hadith du jour</div>
+        <div class="widget-value">La patience est lumiere</div>
+        <div class="widget-action">
+          Decouvrir
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verse of the day -->
+    <div class="section-header">
+      <h3 class="section-title">Verset du jour</h3>
+    </div>
+
+    <div class="verse-card" onclick="window.location.href='../quran/quran.html'" style="cursor:pointer;">
+      <div class="verse-header">
+        <div class="verse-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          Coran
+        </div>
+        <div class="verse-actions">
+          <button class="verse-action-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+          </button>
+          <button class="verse-action-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          </button>
+        </div>
+      </div>
+      <p class="verse-arabic">إِنَّ مَعَ الْعُسْرِ يُسْرًا</p>
+      <p class="verse-translation">"Certes, avec la difficulte il y a une facilite."</p>
+      <p class="verse-ref">Sourate <span>Ash-Sharh</span> &middot; Verset 6</p>
+    </div>
+
+    <!-- Hadith of the day -->
+    <div class="section-header">
+      <h3 class="section-title">Hadith du jour</h3>
+    </div>
+
+    <div class="hadith-card" onclick="window.location.href='../hadith/hadith.html'" style="cursor:pointer;">
+      <div class="hadith-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Hadith
+      </div>
+      <p class="hadith-text" style="padding-left:16px;">
+        Le Prophete (paix et salut sur lui) a dit : "La patience est une lumiere, et le Coran est un argument pour ou contre toi."
+      </p>
+      <div class="hadith-source">
+        <div class="hadith-ref">
+          <span>Sahih Muslim</span> &middot; n&deg;223
+        </div>
+        <div class="hadith-auth">Sahih</div>
+      </div>
+    </div>
+
+    <div style="height: 100px;"></div>
+
+  </div>
+
+  <!-- ===== PLUS MENU OVERLAY ===== -->
+  <div class="plus-overlay" id="plusOverlay" onclick="closePlusMenu(event)">
+    <div class="plus-overlay-title">Explorer</div>
+    <div class="plus-grid">
+      <a href="../duaa/duaa.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg>
+        </div>
+        <span class="plus-grid-label">Du3aa</span>
+      </a>
+      <a href="../quran/quran.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        </div>
+        <span class="plus-grid-label">Coran</span>
+      </a>
+      <a href="../hadith/hadith.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg>
+        </div>
+        <span class="plus-grid-label">Hadith</span>
+      </a>
+      <a href="../history/history.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg>
+        </div>
+        <span class="plus-grid-label">Histoire</span>
+      </a>
+      <a href="../calendar/calendar.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+        </div>
+        <span class="plus-grid-label">Calendrier</span>
+      </a>
+      <a href="../challenges/challenges.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg>
+        </div>
+        <span class="plus-grid-label">Defis</span>
+      </a>
+      <a href="../names/names.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span class="plus-grid-label">99 Noms</span>
+      </a>
+      <a href="../media/media.html" class="plus-grid-item">
+        <div class="plus-icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </div>
+        <span class="plus-grid-label">Medias</span>
+      </a>
+    </div>
+    <button class="plus-close-btn" onclick="togglePlusMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <div class="bottom-nav">
+    <div class="nav-inner">
+      <button class="nav-item active" onclick="window.location.href='../home/dashboard.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Accueil</span>
+      </button>
+      <button class="nav-item" onclick="window.location.href='../prayer/prayer.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg>
+        <span>Priere</span>
+      </button>
+      <button class="nav-item-plus" id="plusBtn" onclick="togglePlusMenu()">
+        <div class="nav-plus-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <span>Plus</span>
+      </button>
+      <button class="nav-item" onclick="window.location.href='../dhikr/dhikr.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+        <span>Dhikr</span>
+      </button>
+      <button class="nav-item" onclick="window.location.href='../profile/profile.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profil</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+<p class="maquette-label"><strong>Noor</strong> &mdash; Maquette Dashboard</p>
+</div>
+
+<script>
+function togglePlusMenu() {
+  var overlay = document.getElementById('plusOverlay');
+  var btn = document.getElementById('plusBtn');
+  overlay.classList.toggle('active');
+  btn.classList.toggle('open');
+}
+
+function closePlusMenu(e) {
+  if (e.target === e.currentTarget) {
+    togglePlusMenu();
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var overlay = document.getElementById('plusOverlay');
+    if (overlay.classList.contains('active')) {
+      togglePlusMenu();
+    }
+  }
+});
+</script>
+
+</body>
+</html>

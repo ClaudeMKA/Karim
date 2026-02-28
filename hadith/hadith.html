@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noor — Maquette Hadith</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after{margin:0;padding:0;box-sizing:border-box;scrollbar-width:none;-ms-overflow-style:none;}
+*::-webkit-scrollbar{display:none;}
+body{background:#15151a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter',sans-serif;padding:40px 20px;gap:30px;overflow-x:hidden;}
+.label{color:#8e8e93;font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-top:8px;font-weight:500;}
+.screens-row{display:flex;gap:50px;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
+.screen-wrapper{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.screen-label{color:#555560;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
+
+/* Phone Frame */
+.phone{width:393px;height:852px;border-radius:55px;border:3px solid #1c1c24;background:#050507;position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,0.03),0 40px 80px rgba(0,0,0,0.6),0 0 120px rgba(139,92,246,0.03);}
+.dynamic-island{width:126px;height:36px;background:#000;border-radius:20px;position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:100;}
+.home-indicator{width:134px;height:5px;background:#f5f5f7;border-radius:3px;position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:100;opacity:0.25;}
+.screen-content{position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;padding:60px 0 100px;scrollbar-width:none;-ms-overflow-style:none;}
+.screen-content::-webkit-scrollbar{display:none;}
+
+/* Bottom Nav */
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;height:90px;background:rgba(5,5,7,0.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-around;align-items:flex-start;padding-top:12px;z-index:99;}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;opacity:0.45;transition:all 0.3s;}
+.nav-item.active{opacity:1;}
+.nav-item svg{width:24px;height:24px;}
+.nav-item span{font-size:10px;font-weight:500;color:#8e8e93;}
+.nav-item.active span{color:#8b5cf6;}
+
+/* Common */
+.px{padding-left:20px;padding-right:20px;}
+
+/* Header */
+.page-header{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;}
+.header-icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.header-icon.purple-bg{background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.2);}
+.header-icon svg{width:22px;height:22px;}
+.header-title{font-size:22px;font-weight:700;color:#f5f5f7;line-height:1.2;}
+.header-title .arabic-sub{font-family:'Amiri',serif;font-size:18px;color:#8e8e93;font-weight:400;margin-left:8px;}
+
+/* Hadith of the Day Card */
+.hadith-day-card{margin:8px 20px 16px;background:linear-gradient(145deg,rgba(139,92,246,0.12) 0%,rgba(139,92,246,0.04) 100%);border:1px solid rgba(139,92,246,0.18);border-radius:20px;padding:20px;position:relative;overflow:hidden;}
+.hadith-day-card::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%);border-radius:50%;}
+.hotd-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#8b5cf6;margin-bottom:12px;}
+.hotd-quote{font-size:32px;color:rgba(139,92,246,0.3);line-height:1;font-family:Georgia,serif;margin-bottom:4px;}
+.hotd-arabic{font-family:'Amiri',serif;font-size:19px;color:#f5f5f7;direction:rtl;text-align:right;line-height:1.7;margin-bottom:10px;}
+.hotd-translation{font-size:13px;color:#8e8e93;line-height:1.6;margin-bottom:14px;font-style:italic;}
+.hotd-footer{display:flex;align-items:center;justify-content:space-between;}
+.hotd-source{font-size:11px;color:#555560;font-weight:500;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.3px;}
+.badge-sahih{background:rgba(78,204,163,0.12);color:#4ecca3;border:1px solid rgba(78,204,163,0.2);}
+.badge-hasan{background:rgba(245,166,35,0.12);color:#f5a623;border:1px solid rgba(245,166,35,0.2);}
+.badge-dot{width:5px;height:5px;border-radius:50%;}
+.badge-sahih .badge-dot{background:#4ecca3;}
+.badge-hasan .badge-dot{background:#f5a623;}
+
+/* Collection Tabs */
+.collection-tabs{display:flex;gap:8px;padding:4px 20px 12px;overflow-x:auto;}
+.tab-pill{padding:8px 18px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s;white-space:nowrap;border:1px solid rgba(255,255,255,0.06);color:#8e8e93;background:rgba(255,255,255,0.03);}
+.tab-pill.active{background:rgba(139,92,246,0.18);color:#c4b5fd;border-color:rgba(139,92,246,0.3);}
+
+/* Search Bar */
+.search-bar{margin:4px 20px 16px;background:#131318;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.search-bar svg{width:16px;height:16px;color:#555560;flex-shrink:0;}
+.search-bar span{font-size:13px;color:#555560;}
+
+/* Hadith List Card */
+.hadith-card{margin:0 20px 12px;background:#131318;border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:16px;cursor:pointer;transition:all 0.25s;}
+.hadith-card:hover{border-color:rgba(139,92,246,0.2);background:rgba(19,19,24,0.9);}
+.hadith-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.hadith-number{font-size:11px;font-weight:700;color:#8b5cf6;background:rgba(139,92,246,0.1);padding:3px 10px;border-radius:8px;}
+.hadith-card-actions{display:flex;gap:10px;}
+.hadith-card-actions svg{width:16px;height:16px;color:#555560;cursor:pointer;transition:color 0.2s;}
+.hadith-card-actions svg:hover{color:#8e8e93;}
+.hadith-card-arabic{font-family:'Amiri',serif;font-size:16px;color:#d4d4d8;direction:rtl;text-align:right;line-height:1.7;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.hadith-card-french{font-size:12.5px;color:#8e8e93;line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.hadith-card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.meta-tag{font-size:10px;color:#555560;font-weight:500;background:rgba(255,255,255,0.03);padding:3px 8px;border-radius:6px;}
+.narrator{font-size:10px;color:#555560;margin-top:8px;font-style:italic;}
+
+/* ============ SCREEN 2 - Detail ============ */
+.detail-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 10px;}
+.detail-back{display:flex;align-items:center;gap:6px;color:#8b5cf6;cursor:pointer;font-size:13px;font-weight:600;}
+.detail-back svg{width:18px;height:18px;}
+.detail-bookmark{width:36px;height:36px;border-radius:12px;background:rgba(139,92,246,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.detail-bookmark svg{width:18px;height:18px;color:#8b5cf6;}
+
+.detail-arabic-block{margin:12px 20px 20px;background:linear-gradient(145deg,rgba(212,175,85,0.06) 0%,rgba(212,175,85,0.02) 100%);border:1px solid rgba(212,175,85,0.12);border-radius:20px;padding:24px 20px;position:relative;}
+.detail-arabic-block::before{content:'\201C';position:absolute;top:8px;right:16px;font-size:60px;color:rgba(212,175,85,0.12);font-family:Georgia,serif;line-height:1;}
+.detail-arabic{font-family:'Amiri',serif;font-size:20px;background:linear-gradient(135deg,#d4af55 0%,#f0d78c 50%,#d4af55 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;direction:rtl;text-align:center;line-height:2;position:relative;z-index:1;}
+.detail-translation{margin:0 20px 20px;padding:0 4px;}
+.detail-translation-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#555560;margin-bottom:8px;}
+.detail-translation-text{font-size:14px;color:#d4d4d8;line-height:1.7;}
+
+/* Info Cards */
+.info-card{margin:0 20px 12px;border-radius:16px;padding:16px;position:relative;overflow:hidden;}
+.info-card.green-card{background:rgba(78,204,163,0.06);border:1px solid rgba(78,204,163,0.12);}
+.info-card.purple-card{background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);}
+.info-card.gold-card{background:rgba(212,175,85,0.06);border:1px solid rgba(212,175,85,0.12);}
+.info-card-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.info-card-icon{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.info-card-icon.green-icon{background:rgba(78,204,163,0.15);}
+.info-card-icon.purple-icon{background:rgba(139,92,246,0.15);}
+.info-card-icon.gold-icon{background:rgba(212,175,85,0.15);}
+.info-card-icon svg{width:15px;height:15px;}
+.info-card-title{font-size:13px;font-weight:700;}
+.info-card-title.green-text{color:#4ecca3;}
+.info-card-title.purple-text{color:#8b5cf6;}
+.info-card-title.gold-text{color:#d4af55;}
+.info-card-body{font-size:12px;color:#8e8e93;line-height:1.6;}
+.info-card-body strong{color:#d4d4d8;font-weight:600;}
+
+/* Source Section */
+.source-section{margin:4px 20px 16px;background:#131318;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:16px;}
+.source-section-title{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#555560;margin-bottom:12px;}
+.source-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.source-row:last-child{border-bottom:none;}
+.source-label{font-size:11px;color:#555560;font-weight:500;}
+.source-value{font-size:12px;color:#d4d4d8;font-weight:600;}
+
+/* Narrator Chain */
+.narrator-chain{margin:0 20px 16px;}
+.narrator-chain-title{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#555560;margin-bottom:10px;}
+.chain-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.chain-node{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:10px;padding:5px 10px;font-size:10px;color:#c4b5fd;font-weight:500;}
+.chain-arrow{color:#555560;font-size:12px;}
+
+/* Related Hadiths */
+.related-section{margin:4px 20px 16px;}
+.related-title{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#555560;margin-bottom:10px;}
+.related-row{display:flex;gap:10px;}
+.related-mini{flex:1;background:#131318;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:12px;cursor:pointer;transition:border-color 0.2s;}
+.related-mini:hover{border-color:rgba(139,92,246,0.2);}
+.related-mini-num{font-size:10px;font-weight:700;color:#8b5cf6;margin-bottom:6px;}
+.related-mini-text{font-family:'Amiri',serif;font-size:13px;color:#8e8e93;direction:rtl;text-align:right;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px;}
+.related-mini-source{font-size:9px;color:#555560;font-weight:500;}
+
+/* Action Buttons */
+.action-buttons{display:flex;gap:8px;padding:0 20px 20px;flex-wrap:wrap;}
+.action-btn{flex:1;min-width:90px;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 10px;border-radius:14px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.25s;border:none;}
+.action-btn.purple-btn{background:rgba(139,92,246,0.15);color:#c4b5fd;border:1px solid rgba(139,92,246,0.2);}
+.action-btn.gold-btn{background:rgba(212,175,85,0.1);color:#d4af55;border:1px solid rgba(212,175,85,0.15);}
+.action-btn.green-btn{background:rgba(78,204,163,0.1);color:#4ecca3;border:1px solid rgba(78,204,163,0.15);}
+.action-btn svg{width:14px;height:14px;}
+.action-btn:hover{transform:translateY(-1px);}
+
+/* Plus Menu Animations */
+@keyframes plusFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes plusSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="screens-row">
+
+<!-- ==================== SCREEN 1: Hadith Collection ==================== -->
+<div class="screen-wrapper">
+<div class="screen-label">Ecran 1 — Collection</div>
+<div class="phone" id="screen1">
+<div class="dynamic-island"></div>
+<div class="screen-content">
+
+<!-- Header -->
+<div class="page-header">
+  <div class="header-icon purple-bg">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      <line x1="9" y1="7" x2="16" y2="7"/>
+      <line x1="9" y1="11" x2="14" y2="11"/>
+    </svg>
+  </div>
+  <div class="header-title">Hadith <span class="arabic-sub">الحديث</span></div>
+</div>
+
+<!-- Hadith of the Day -->
+<div class="hadith-day-card">
+  <div class="hotd-label">Hadith du Jour</div>
+  <div class="hotd-quote">"</div>
+  <div class="hotd-arabic">مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ</div>
+  <div class="hotd-translation">"Celui qui emprunte un chemin a la recherche de la science, Allah lui facilite un chemin vers le Paradis."</div>
+  <div class="hotd-footer">
+    <span class="hotd-source">Sahih Muslim 2699</span>
+    <span class="badge badge-sahih"><span class="badge-dot"></span> Sahih</span>
+  </div>
+</div>
+
+<!-- Collection Tabs -->
+<div class="collection-tabs">
+  <div class="tab-pill active">Bukhari</div>
+  <div class="tab-pill">Muslim</div>
+  <div class="tab-pill">Tirmidhi</div>
+  <div class="tab-pill">Abu Dawud</div>
+  <div class="tab-pill">Nasa'i</div>
+</div>
+
+<!-- Search Bar -->
+<div class="search-bar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <span>Rechercher par theme, mot-cle, narrateur...</span>
+</div>
+
+<!-- Hadith Card 1 -->
+<div class="hadith-card" onclick="showDetail()">
+  <div class="hadith-card-top">
+    <span class="hadith-number">#1234</span>
+    <div class="hadith-card-actions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+    </div>
+  </div>
+  <div class="hadith-card-arabic">إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى فَمَنْ كَانَتْ هِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ</div>
+  <div class="hadith-card-french">Les actions ne valent que par les intentions, et chacun n'a pour lui que ce qu'il a eu comme intention...</div>
+  <div class="hadith-card-meta">
+    <span class="meta-tag">Sahih al-Bukhari</span>
+    <span class="meta-tag">Livre 1</span>
+    <span class="meta-tag">Ch. 1</span>
+    <span class="badge badge-sahih"><span class="badge-dot"></span> Sahih</span>
+  </div>
+  <div class="narrator">Rapporte par 'Umar ibn al-Khattab (ra)</div>
+</div>
+
+<!-- Hadith Card 2 -->
+<div class="hadith-card">
+  <div class="hadith-card-top">
+    <span class="hadith-number">#5027</span>
+    <div class="hadith-card-actions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+    </div>
+  </div>
+  <div class="hadith-card-arabic">خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ</div>
+  <div class="hadith-card-french">Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne aux autres.</div>
+  <div class="hadith-card-meta">
+    <span class="meta-tag">Sahih al-Bukhari</span>
+    <span class="meta-tag">Livre 66</span>
+    <span class="meta-tag">Ch. 21</span>
+    <span class="badge badge-sahih"><span class="badge-dot"></span> Sahih</span>
+  </div>
+  <div class="narrator">Rapporte par 'Uthman ibn 'Affan (ra)</div>
+</div>
+
+<!-- Hadith Card 3 -->
+<div class="hadith-card">
+  <div class="hadith-card-top">
+    <span class="hadith-number">#2687</span>
+    <div class="hadith-card-actions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+    </div>
+  </div>
+  <div class="hadith-card-arabic">لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ</div>
+  <div class="hadith-card-french">Aucun d'entre vous ne croit vraiment tant qu'il n'aime pas pour son frere ce qu'il aime pour lui-meme.</div>
+  <div class="hadith-card-meta">
+    <span class="meta-tag">Sahih al-Bukhari</span>
+    <span class="meta-tag">Livre 2</span>
+    <span class="meta-tag">Ch. 7</span>
+    <span class="badge badge-sahih"><span class="badge-dot"></span> Sahih</span>
+  </div>
+  <div class="narrator">Rapporte par Anas ibn Malik (ra)</div>
+</div>
+
+<!-- Hadith Card 4 -->
+<div class="hadith-card">
+  <div class="hadith-card-top">
+    <span class="hadith-number">#3641</span>
+    <div class="hadith-card-actions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+    </div>
+  </div>
+  <div class="hadith-card-arabic">الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ وَالْمُهَاجِرُ مَنْ هَجَرَ مَا نَهَى اللَّهُ عَنْهُ</div>
+  <div class="hadith-card-french">Le musulman est celui dont les musulmans sont a l'abri de sa langue et de sa main. Et l'emigrant est celui qui abandonne ce qu'Allah a interdit.</div>
+  <div class="hadith-card-meta">
+    <span class="meta-tag">Jami' at-Tirmidhi</span>
+    <span class="meta-tag">Livre 39</span>
+    <span class="meta-tag">Ch. 11</span>
+    <span class="badge badge-hasan"><span class="badge-dot"></span> Hasan</span>
+  </div>
+  <div class="narrator">Rapporte par 'Abdullah ibn 'Amr (ra)</div>
+</div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <a href="../home/dashboard.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="../prayer/prayer.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg>
+    <span>Priere</span>
+  </a>
+  <div class="nav-item" onclick="togglePlusMenu()" style="cursor:pointer;">
+    <div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;margin-top:-10px;box-shadow:0 4px 20px rgba(212,175,85,0.3);">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#050507" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+  </div>
+  <a href="../dhikr/dhikr.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+    <span>Dhikr</span>
+  </a>
+  <a href="../profile/profile.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</div>
+<div class="home-indicator"></div>
+</div>
+</div>
+
+<!-- ==================== SCREEN 2: Hadith Detail ==================== -->
+<div class="screen-wrapper">
+<div class="screen-label">Ecran 2 — Detail</div>
+<div class="phone" id="screen2">
+<div class="dynamic-island"></div>
+<div class="screen-content">
+
+<!-- Detail Header -->
+<div class="detail-header">
+  <div class="detail-back" onclick="showCollection()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+    Retour
+  </div>
+  <div class="detail-bookmark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+  </div>
+</div>
+
+<!-- Full Arabic Text -->
+<div class="detail-arabic-block">
+  <div class="detail-arabic">
+    إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى فَمَنْ كَانَتْ هِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ فَهِجْرَتُهُ إِلَى اللَّهِ وَرَسُولِهِ وَمَنْ كَانَتْ هِجْرَتُهُ لِدُنْيَا يُصِيبُهَا أَوِ امْرَأَةٍ يَنْكِحُهَا فَهِجْرَتُهُ إِلَى مَا هَاجَرَ إِلَيْهِ
+  </div>
+</div>
+
+<!-- French Translation -->
+<div class="detail-translation">
+  <div class="detail-translation-label">Traduction</div>
+  <div class="detail-translation-text">
+    Les actions ne valent que par les intentions, et chacun n'a pour lui que ce qu'il a eu comme intention. Celui dont l'emigration a pour but Allah et Son Messager, son emigration est pour Allah et Son Messager. Et celui dont l'emigration a pour but un bien de ce monde qu'il veut obtenir ou une femme qu'il veut epouser, son emigration est vers ce pour quoi il a emigre.
+  </div>
+</div>
+
+<!-- Authenticite Card -->
+<div class="info-card green-card">
+  <div class="info-card-header">
+    <div class="info-card-icon green-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#4ecca3" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+    </div>
+    <span class="info-card-title green-text">Authenticite</span>
+    <span class="badge badge-sahih" style="margin-left:auto;"><span class="badge-dot"></span> Sahih</span>
+  </div>
+  <div class="info-card-body">
+    <strong>Grade :</strong> Sahih (Authentique) — Muttafaq 'alayh<br>
+    <strong>Chaine :</strong> Rapporte par al-Bukhari et Muslim avec une chaine de transmission ininterrompue et des narrateurs fiables.<br>
+    Ce hadith est considere comme l'un des plus importants en Islam.
+  </div>
+</div>
+
+<!-- Contexte Card -->
+<div class="info-card purple-card">
+  <div class="info-card-header">
+    <div class="info-card-icon purple-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    </div>
+    <span class="info-card-title purple-text">Contexte Historique</span>
+  </div>
+  <div class="info-card-body">
+    Ce hadith a ete prononce par le Prophete (paix soit sur lui) lorsqu'un homme a emigre de la Mecque a Medine non pas pour des raisons religieuses, mais pour epouser une femme nommee Umm Qays. Ce hadith souligne l'importance fondamentale de la sincerite dans toute action.
+  </div>
+</div>
+
+<!-- Explication Card -->
+<div class="info-card gold-card">
+  <div class="info-card-header">
+    <div class="info-card-icon gold-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#d4af55" stroke-width="2" stroke-linecap="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+    </div>
+    <span class="info-card-title gold-text">Explication</span>
+  </div>
+  <div class="info-card-body">
+    Ce hadith enseigne que <strong>la valeur de chaque acte depend de l'intention</strong> qui le motive. Une meme action peut etre recompensee ou non selon que l'intention est sincere envers Allah. C'est le fondement de la sincerite (<strong>ikhlas</strong>) en Islam, et les savants considerent ce hadith comme un tiers de la science islamique.
+  </div>
+</div>
+
+<!-- Source Section -->
+<div class="source-section">
+  <div class="source-section-title">Source</div>
+  <div class="source-row">
+    <span class="source-label">Recueil</span>
+    <span class="source-value">Sahih al-Bukhari</span>
+  </div>
+  <div class="source-row">
+    <span class="source-label">Livre</span>
+    <span class="source-value">Livre 1 — Revelation</span>
+  </div>
+  <div class="source-row">
+    <span class="source-label">Chapitre</span>
+    <span class="source-value">Ch. 1 — Debut de la Revelation</span>
+  </div>
+  <div class="source-row">
+    <span class="source-label">Numero</span>
+    <span class="source-value">#1234</span>
+  </div>
+</div>
+
+<!-- Narrator Chain -->
+<div class="narrator-chain">
+  <div class="narrator-chain-title">Chaine de Transmission (Isnad)</div>
+  <div class="chain-flow">
+    <span class="chain-node">Prophete &#xFDFA;</span>
+    <span class="chain-arrow">&rarr;</span>
+    <span class="chain-node">'Umar ibn al-Khattab</span>
+    <span class="chain-arrow">&rarr;</span>
+    <span class="chain-node">'Alqama ibn Waqqas</span>
+    <span class="chain-arrow">&rarr;</span>
+    <span class="chain-node">Muhammad ibn Ibrahim</span>
+    <span class="chain-arrow">&rarr;</span>
+    <span class="chain-node">Yahya ibn Sa'id</span>
+    <span class="chain-arrow">&rarr;</span>
+    <span class="chain-node">Imam al-Bukhari</span>
+  </div>
+</div>
+
+<!-- Related Hadiths -->
+<div class="related-section">
+  <div class="related-title">Hadiths Similaires</div>
+  <div class="related-row">
+    <div class="related-mini">
+      <div class="related-mini-num">#6689 — Muslim</div>
+      <div class="related-mini-text">إِنَّمَا الْأَعْمَالُ بِالنِّيَّةِ وَإِنَّمَا لِامْرِئٍ مَا نَوَى</div>
+      <div class="related-mini-source">Version de Muslim</div>
+    </div>
+    <div class="related-mini">
+      <div class="related-mini-num">#3898 — Bukhari</div>
+      <div class="related-mini-text">مَنْ هَاجَرَ لِدُنْيَا يُصِيبُهَا أَوِ امْرَأَةٍ يَتَزَوَّجُهَا</div>
+      <div class="related-mini-source">Hadith de l'Emigration</div>
+    </div>
+  </div>
+</div>
+
+<!-- Action Buttons -->
+<div class="action-buttons">
+  <div class="action-btn purple-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+    Partager
+  </div>
+  <div class="action-btn gold-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    Note
+  </div>
+  <div class="action-btn green-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22,12 16,12 14,15 10,9 8,12 2,12"/></svg>
+    Revision
+  </div>
+</div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <a href="../home/dashboard.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="../prayer/prayer.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg>
+    <span>Priere</span>
+  </a>
+  <div class="nav-item" onclick="togglePlusMenu()" style="cursor:pointer;">
+    <div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;margin-top:-10px;box-shadow:0 4px 20px rgba(212,175,85,0.3);">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#050507" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+  </div>
+  <a href="../dhikr/dhikr.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+    <span>Dhikr</span>
+  </a>
+  <a href="../profile/profile.html" class="nav-item" style="text-decoration:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</div>
+<div class="home-indicator"></div>
+</div>
+</div>
+
+</div>
+
+<!-- Plus Menu Overlay -->
+<div id="plusMenuOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center;animation:plusFadeIn 0.3s ease;" onclick="closePlusMenu(event)">
+  <div id="plusMenuContainer" style="background:#131318;border-radius:16px;padding:24px;width:340px;max-width:90%;position:relative;animation:plusSlideUp 0.3s ease;">
+    <div onclick="closePlusMenu()" style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:8px;">
+      <a href="../duaa/duaa.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Du3aa</span>
+      </a>
+      <a href="../quran/quran.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Coran</span>
+      </a>
+      <a href="../hadith/hadith.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Hadith</span>
+      </a>
+      <a href="../history/history.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Histoire</span>
+      </a>
+      <a href="../calendar/calendar.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Calendrier</span>
+      </a>
+      <a href="../challenges/challenges.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Defis</span>
+      </a>
+      <a href="../names/names.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">99 Noms</span>
+      </a>
+      <a href="../media/media.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Medias</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="label">Noor — Maquette Hadith</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-pill').forEach(tab => {
+  tab.addEventListener('click', function() {
+    this.parentElement.querySelectorAll('.tab-pill').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Plus menu toggle
+function togglePlusMenu() {
+  var overlay = document.getElementById('plusMenuOverlay');
+  overlay.style.display = 'flex';
+}
+function closePlusMenu(event) {
+  if (!event || event.target === document.getElementById('plusMenuOverlay') || !event.target.closest('#plusMenuContainer') || event.currentTarget !== document.getElementById('plusMenuOverlay')) {
+    document.getElementById('plusMenuOverlay').style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noor — Maquette Histoire</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;scrollbar-width:none;-ms-overflow-style:none;}
+*::-webkit-scrollbar{display:none;}
+:root{
+--bg:#050507;--card:#131318;--card-hover:#1a1a22;
+--gold:#d4af55;--gold-light:#f0d78c;--green:#4ecca3;--purple:#8b5cf6;
+--text:#f5f5f7;--secondary:#8e8e93;--tertiary:#555560;
+--gold-gradient:linear-gradient(135deg,#d4af55 0%,#f0d78c 50%,#d4af55 100%);
+--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;
+}
+body{
+font-family:'Inter',sans-serif;background:#0a0a0f;
+display:flex;justify-content:center;align-items:center;
+min-height:100vh;padding:20px;color:var(--text);
+overflow-x:hidden;
+}
+.arabic{font-family:'Amiri',serif}
+
+/* Page container */
+.page-container{display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
+
+/* Phone frame */
+.phone{
+width:393px;height:852px;border-radius:55px;border:3px solid #1c1c24;
+background:var(--bg);position:relative;overflow:hidden;
+box-shadow:0 0 0 1px #0a0a0f,0 25px 80px rgba(0,0,0,.7),0 0 120px rgba(212,175,85,.03);
+flex-shrink:0;
+}
+.phone-label{
+text-align:center;margin-top:12px;font-size:11px;color:var(--tertiary);
+letter-spacing:1px;text-transform:uppercase;
+}
+
+/* Dynamic island */
+.dynamic-island{
+position:absolute;top:12px;left:50%;transform:translateX(-50%);
+width:126px;height:36px;background:#0a0a0f;border-radius:20px;z-index:100;
+}
+
+/* Home indicator */
+.home-indicator{
+position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+width:134px;height:5px;background:rgba(245,245,247,.2);border-radius:3px;z-index:100;
+}
+
+/* Screen content */
+.screen{
+position:absolute;top:0;left:0;width:100%;height:100%;
+overflow-y:auto;overflow-x:hidden;
+padding:60px 0 90px;
+scrollbar-width:none;
+}
+.screen::-webkit-scrollbar{display:none}
+
+/* ============ BOTTOM NAV ============ */
+.bottom-nav{
+position:absolute;bottom:0;left:0;width:100%;
+background:linear-gradient(to top,rgba(5,5,7,.98) 60%,rgba(5,5,7,0));
+padding:12px 20px 30px;z-index:90;
+display:flex;justify-content:space-around;align-items:flex-end;
+}
+.nav-item{
+display:flex;flex-direction:column;align-items:center;gap:4px;
+cursor:pointer;opacity:.45;transition:all .3s;position:relative;
+}
+.nav-item.active{opacity:1}
+.nav-item svg{width:24px;height:24px}
+.nav-item span{font-size:10px;font-weight:500;color:var(--secondary)}
+.nav-item.active span{
+background:var(--gold-gradient);-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;font-weight:600;
+}
+.nav-item.active svg{filter:drop-shadow(0 0 6px rgba(212,175,85,.4))}
+.nav-glow{
+position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+width:40px;height:3px;border-radius:2px;
+background:var(--gold-gradient);
+}
+
+/* ============ SCREEN 1 - HISTORY HOME ============ */
+
+/* Header */
+.history-header{
+display:flex;align-items:center;gap:12px;
+padding:10px 20px 16px;
+}
+.history-header .icon{
+width:42px;height:42px;border-radius:var(--radius-md);
+background:linear-gradient(135deg,rgba(212,175,85,.15),rgba(139,92,246,.1));
+display:flex;align-items:center;justify-content:center;
+border:1px solid rgba(212,175,85,.15);
+}
+.history-header .icon svg{width:22px;height:22px}
+.history-header .titles{flex:1}
+.history-header .titles h1{font-size:22px;font-weight:700;line-height:1.2}
+.history-header .titles .arabic-sub{
+font-family:'Amiri',serif;font-size:16px;color:var(--gold);opacity:.8;
+margin-top:1px;
+}
+
+/* Hero featured card */
+.hero-card{
+margin:0 16px 20px;border-radius:var(--radius-xl);
+overflow:hidden;position:relative;height:210px;
+background:linear-gradient(135deg,#1a1520 0%,#0f1a25 40%,#131318 100%);
+border:1px solid rgba(212,175,85,.12);
+}
+.hero-card::before{
+content:'';position:absolute;inset:0;
+background:
+  radial-gradient(ellipse at 20% 80%,rgba(212,175,85,.12) 0%,transparent 60%),
+  radial-gradient(ellipse at 80% 20%,rgba(139,92,246,.08) 0%,transparent 50%);
+}
+.hero-card .hero-pattern{
+position:absolute;top:0;right:0;width:160px;height:100%;opacity:.06;
+background:repeating-conic-gradient(from 0deg,var(--gold) 0deg 30deg,transparent 30deg 60deg);
+}
+.hero-content{
+position:relative;z-index:2;padding:22px;height:100%;
+display:flex;flex-direction:column;justify-content:space-between;
+}
+.hero-badge{
+display:inline-flex;align-items:center;gap:6px;
+background:rgba(212,175,85,.15);border:1px solid rgba(212,175,85,.2);
+border-radius:20px;padding:4px 12px;font-size:11px;color:var(--gold);
+font-weight:600;width:fit-content;letter-spacing:.3px;
+}
+.hero-badge svg{width:12px;height:12px}
+.hero-title{font-size:20px;font-weight:800;line-height:1.25;margin-top:10px}
+.hero-title .salawat{
+font-family:'Amiri',serif;font-size:16px;color:var(--gold);
+vertical-align:middle;margin-left:2px;
+}
+.hero-season{font-size:12px;color:var(--secondary);margin-top:4px;font-weight:500}
+.hero-bottom{display:flex;align-items:center;gap:12px;margin-top:auto}
+.hero-progress{flex:1}
+.hero-progress-label{
+display:flex;justify-content:space-between;align-items:center;
+font-size:11px;color:var(--secondary);margin-bottom:6px;
+}
+.hero-progress-label span:last-child{color:var(--gold);font-weight:600}
+.progress-bar{
+width:100%;height:4px;background:rgba(245,245,247,.08);
+border-radius:4px;overflow:hidden;
+}
+.progress-fill{
+height:100%;border-radius:4px;
+background:var(--gold-gradient);
+transition:width .8s ease;
+}
+.hero-btn{
+background:var(--gold-gradient);border:none;color:#0a0a0f;
+padding:10px 18px;border-radius:var(--radius-md);font-weight:700;
+font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;
+font-family:'Inter',sans-serif;white-space:nowrap;
+box-shadow:0 4px 20px rgba(212,175,85,.3);
+}
+.hero-btn svg{width:14px;height:14px}
+
+/* Category chips */
+.categories{
+display:flex;gap:8px;padding:0 16px 18px;overflow-x:auto;
+scrollbar-width:none;
+}
+.categories::-webkit-scrollbar{display:none}
+.cat-chip{
+padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;
+white-space:nowrap;cursor:pointer;transition:all .3s;
+background:var(--card);color:var(--secondary);
+border:1px solid rgba(245,245,247,.05);
+flex-shrink:0;
+}
+.cat-chip.active{
+background:rgba(212,175,85,.12);color:var(--gold);
+border-color:rgba(212,175,85,.25);
+}
+.cat-chip:hover{border-color:rgba(212,175,85,.15)}
+
+/* Section title */
+.section-title{
+display:flex;justify-content:space-between;align-items:center;
+padding:8px 20px 12px;
+}
+.section-title h2{font-size:17px;font-weight:700}
+.section-title .see-all{
+font-size:12px;color:var(--gold);font-weight:500;cursor:pointer;
+}
+
+/* Companion cards - horizontal scroll */
+.companions-scroll{
+display:flex;gap:12px;padding:0 16px 20px;overflow-x:auto;
+scrollbar-width:none;
+}
+.companions-scroll::-webkit-scrollbar{display:none}
+.companion-card{
+min-width:220px;background:var(--card);border-radius:var(--radius-lg);
+padding:16px;border:1px solid rgba(245,245,247,.04);
+cursor:pointer;transition:all .3s;flex-shrink:0;position:relative;
+overflow:hidden;
+}
+.companion-card::before{
+content:'';position:absolute;top:0;left:0;right:0;height:3px;
+border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+opacity:0;transition:opacity .3s;
+}
+.companion-card:nth-child(1)::before{background:var(--gold-gradient)}
+.companion-card:nth-child(2)::before{background:linear-gradient(90deg,var(--green),#6ee7b7)}
+.companion-card:nth-child(3)::before{background:linear-gradient(90deg,var(--purple),#a78bfa)}
+.companion-card:nth-child(4)::before{background:linear-gradient(90deg,#e74c3c,#ff6b6b)}
+.companion-card:hover::before{opacity:1}
+.companion-card:hover{border-color:rgba(245,245,247,.08);transform:translateY(-2px)}
+.cc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.cc-number{
+font-size:32px;font-weight:900;opacity:.08;line-height:1;
+font-family:'Amiri',serif;
+}
+.cc-format{display:flex;gap:6px}
+.cc-format .fmt{
+width:24px;height:24px;border-radius:6px;
+background:rgba(245,245,247,.05);display:flex;align-items:center;
+justify-content:center;
+}
+.cc-format .fmt svg{width:12px;height:12px;opacity:.5}
+.cc-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.cc-title-ar{font-family:'Amiri',serif;font-size:13px;color:var(--gold);margin-bottom:6px}
+.cc-desc{font-size:11px;color:var(--secondary);line-height:1.5;margin-bottom:10px;
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cc-meta{display:flex;align-items:center;gap:8px}
+.cc-time{
+display:flex;align-items:center;gap:4px;
+font-size:10px;color:var(--tertiary);
+}
+.cc-time svg{width:12px;height:12px}
+
+/* Themes grid */
+.themes-grid{
+display:grid;grid-template-columns:1fr 1fr;gap:10px;
+padding:0 16px 20px;
+}
+.theme-card{
+border-radius:var(--radius-lg);padding:16px;
+cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+border:1px solid transparent;
+}
+.theme-card:hover{transform:scale(1.02)}
+.theme-card:nth-child(1){
+background:linear-gradient(135deg,rgba(212,175,85,.1),rgba(212,175,85,.03));
+border-color:rgba(212,175,85,.08);
+}
+.theme-card:nth-child(2){
+background:linear-gradient(135deg,rgba(78,204,163,.1),rgba(78,204,163,.03));
+border-color:rgba(78,204,163,.08);
+}
+.theme-card:nth-child(3){
+background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(139,92,246,.03));
+border-color:rgba(139,92,246,.08);
+}
+.theme-card:nth-child(4){
+background:linear-gradient(135deg,rgba(231,76,60,.1),rgba(231,76,60,.03));
+border-color:rgba(231,76,60,.08);
+}
+.theme-icon{
+width:36px;height:36px;border-radius:var(--radius-sm);
+display:flex;align-items:center;justify-content:center;
+margin-bottom:10px;font-size:20px;
+}
+.theme-card:nth-child(1) .theme-icon{background:rgba(212,175,85,.12)}
+.theme-card:nth-child(2) .theme-icon{background:rgba(78,204,163,.12)}
+.theme-card:nth-child(3) .theme-icon{background:rgba(139,92,246,.12)}
+.theme-card:nth-child(4) .theme-icon{background:rgba(231,76,60,.12)}
+.theme-name{font-size:14px;font-weight:600;margin-bottom:3px}
+.theme-name-ar{font-family:'Amiri',serif;font-size:12px;color:var(--secondary)}
+
+/* Timeline */
+.timeline{padding:0 16px 30px}
+.timeline-item{
+display:flex;gap:14px;position:relative;padding-bottom:20px;
+}
+.timeline-item:not(:last-child)::after{
+content:'';position:absolute;left:13px;top:30px;bottom:0;
+width:1px;background:rgba(212,175,85,.15);
+}
+.timeline-dot{
+width:28px;height:28px;border-radius:50%;flex-shrink:0;
+background:rgba(212,175,85,.1);border:2px solid rgba(212,175,85,.3);
+display:flex;align-items:center;justify-content:center;
+}
+.timeline-dot .dot-inner{
+width:8px;height:8px;border-radius:50%;background:var(--gold);
+}
+.timeline-body{flex:1}
+.timeline-year{font-size:12px;color:var(--gold);font-weight:700;margin-bottom:3px}
+.timeline-event{font-size:13px;font-weight:500;line-height:1.4}
+.timeline-desc{font-size:11px;color:var(--secondary);margin-top:2px}
+
+/* ============ SCREEN 2 - STORY DETAIL ============ */
+
+.detail-header{
+display:flex;justify-content:space-between;align-items:center;
+padding:10px 20px 12px;
+}
+.detail-header .back-btn,.detail-header .bookmark-btn{
+width:38px;height:38px;border-radius:50%;
+background:rgba(245,245,247,.06);border:1px solid rgba(245,245,247,.06);
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;transition:all .3s;
+}
+.detail-header .back-btn:hover,.detail-header .bookmark-btn:hover{
+background:rgba(245,245,247,.1);
+}
+.detail-header svg{width:18px;height:18px}
+
+/* Detail hero */
+.detail-hero{
+margin:0 16px 20px;border-radius:var(--radius-xl);
+padding:28px 22px;position:relative;overflow:hidden;
+background:linear-gradient(145deg,#1a1825 0%,#131318 100%);
+border:1px solid rgba(212,175,85,.1);
+}
+.detail-hero::before{
+content:'';position:absolute;inset:0;
+background:
+  radial-gradient(circle at 80% 20%,rgba(212,175,85,.08) 0%,transparent 50%),
+  radial-gradient(circle at 20% 80%,rgba(139,92,246,.06) 0%,transparent 50%);
+}
+.detail-hero .geo-pattern{
+position:absolute;top:-20px;right:-20px;width:140px;height:140px;
+opacity:.04;
+background:conic-gradient(from 0deg,var(--gold),transparent,var(--gold),transparent,var(--gold));
+border-radius:50%;
+}
+.detail-hero-content{position:relative;z-index:2}
+.detail-hero .subtitle-badge{
+display:inline-flex;align-items:center;gap:6px;
+font-size:11px;color:var(--gold);font-weight:600;
+background:rgba(212,175,85,.1);border:1px solid rgba(212,175,85,.15);
+border-radius:20px;padding:5px 12px;margin-bottom:14px;
+}
+.detail-hero h1{font-size:24px;font-weight:800;line-height:1.2;margin-bottom:4px}
+.detail-hero .name-ar{
+font-family:'Amiri',serif;font-size:22px;color:var(--gold);
+margin-bottom:6px;direction:rtl;
+}
+.detail-hero .epithet{font-size:13px;color:var(--secondary);font-weight:500}
+
+/* Badges row */
+.detail-badges{
+display:flex;gap:8px;padding:0 20px 16px;flex-wrap:wrap;
+}
+.d-badge{
+display:flex;align-items:center;gap:5px;
+padding:6px 12px;border-radius:20px;font-size:11px;font-weight:600;
+background:var(--card);border:1px solid rgba(245,245,247,.05);
+}
+.d-badge svg{width:14px;height:14px}
+.d-badge.read-badge{color:var(--secondary)}
+.d-badge.audio-badge{color:var(--green)}
+
+/* Play button */
+.play-section{
+display:flex;align-items:center;gap:14px;
+padding:0 20px 20px;
+}
+.play-btn{
+width:48px;height:48px;border-radius:50%;
+background:var(--green);
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;transition:all .3s;flex-shrink:0;
+box-shadow:0 4px 20px rgba(78,204,163,.3);
+}
+.play-btn:hover{transform:scale(1.08);box-shadow:0 6px 30px rgba(78,204,163,.4)}
+.play-btn svg{width:20px;height:20px;margin-left:2px}
+.play-info{flex:1}
+.play-info .play-label{font-size:13px;font-weight:600}
+.play-info .play-sub{font-size:11px;color:var(--secondary);margin-top:2px}
+
+/* Story content */
+.story-content{padding:0 20px 20px}
+.story-content p{
+font-size:13.5px;color:rgba(245,245,247,.85);line-height:1.8;
+margin-bottom:14px;
+}
+.story-content p:first-child::first-letter{
+font-size:32px;font-weight:800;float:left;line-height:1;
+margin-right:6px;margin-top:4px;
+background:var(--gold-gradient);-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;font-family:'Amiri',serif;
+}
+.story-content .highlight{
+border-left:3px solid var(--gold);padding-left:14px;margin:16px 0;
+font-style:italic;color:rgba(245,245,247,.7);
+}
+.story-content .verse{
+background:rgba(212,175,85,.06);border:1px solid rgba(212,175,85,.1);
+border-radius:var(--radius-md);padding:14px;margin:16px 0;
+text-align:center;font-family:'Amiri',serif;
+font-size:16px;color:var(--gold);line-height:2;direction:rtl;
+}
+
+/* Reflection card */
+.reflection-card{
+margin:0 16px 16px;border-radius:var(--radius-lg);
+padding:20px;position:relative;overflow:hidden;
+background:linear-gradient(135deg,rgba(212,175,85,.1),rgba(212,175,85,.04));
+border:1px solid rgba(212,175,85,.15);
+}
+.reflection-card::before{
+content:'';position:absolute;top:0;left:0;right:0;height:2px;
+background:var(--gold-gradient);
+}
+.reflection-icon{
+width:32px;height:32px;border-radius:50%;
+background:rgba(212,175,85,.12);
+display:flex;align-items:center;justify-content:center;
+margin-bottom:10px;
+}
+.reflection-icon svg{width:16px;height:16px}
+.reflection-label{font-size:11px;color:var(--gold);font-weight:700;
+letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.reflection-q{font-size:14px;font-weight:600;line-height:1.5}
+
+/* Action card */
+.action-card{
+margin:0 16px 16px;border-radius:var(--radius-lg);
+padding:16px;background:var(--card);
+border:1px solid rgba(78,204,163,.1);
+display:flex;gap:14px;align-items:flex-start;
+}
+.action-icon{
+width:36px;height:36px;border-radius:var(--radius-sm);flex-shrink:0;
+background:rgba(78,204,163,.1);
+display:flex;align-items:center;justify-content:center;
+}
+.action-icon svg{width:18px;height:18px}
+.action-label{font-size:11px;color:var(--green);font-weight:700;
+letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.action-text{font-size:13px;color:rgba(245,245,247,.8);line-height:1.5}
+
+/* Next story nav */
+.next-story{
+margin:0 16px 30px;border-radius:var(--radius-lg);
+padding:16px;background:var(--card);
+border:1px solid rgba(245,245,247,.04);
+display:flex;justify-content:space-between;align-items:center;
+cursor:pointer;transition:all .3s;
+}
+.next-story:hover{border-color:rgba(212,175,85,.15);background:var(--card-hover)}
+.next-story-info{flex:1}
+.next-story-label{font-size:10px;color:var(--secondary);font-weight:600;
+text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.next-story-name{font-size:14px;font-weight:600}
+.next-story-sub{font-size:11px;color:var(--secondary);margin-top:2px}
+.next-story .arrow{
+width:36px;height:36px;border-radius:50%;
+background:rgba(212,175,85,.1);
+display:flex;align-items:center;justify-content:center;
+}
+.next-story .arrow svg{width:16px;height:16px}
+
+/* Watermark */
+.watermark{
+position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
+font-size:11px;color:rgba(85,85,96,.5);letter-spacing:1px;z-index:1000;
+font-weight:500;
+}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.fade-in{animation:fadeInUp .5s ease both}
+.fade-in-d1{animation-delay:.1s}
+.fade-in-d2{animation-delay:.2s}
+.fade-in-d3{animation-delay:.3s}
+.fade-in-d4{animation-delay:.4s}
+.fade-in-d5{animation-delay:.5s}
+
+/* Plus Menu Animations */
+@keyframes plusFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes plusSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Responsive */
+@media(max-width:860px){
+.page-container{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+
+<!-- ===================== SCREEN 1: HISTORY HOME ===================== -->
+<div>
+<div class="phone" id="phone1">
+<div class="dynamic-island"></div>
+
+<div class="screen" id="screen1">
+
+<!-- Header -->
+<div class="history-header fade-in">
+<div class="icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="url(#goldG)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<defs><linearGradient id="goldG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4af55"/><stop offset="100%" stop-color="#f0d78c"/></linearGradient></defs>
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13c1.168-.776 2.754-1.253 4.5-1.253s3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18s-3.332.477-4.5 1.253"/>
+</svg>
+</div>
+<div class="titles">
+<h1>Histoire</h1>
+<div class="arabic-sub arabic">التاريخ الإسلامي</div>
+</div>
+</div>
+
+<!-- Hero Featured Card -->
+<div class="hero-card fade-in fade-in-d1" onclick="showDetail()">
+<div class="hero-pattern"></div>
+<div class="hero-content">
+<div class="hero-badge">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+En cours
+</div>
+<div class="hero-title">La Sira du Prophete <span class="salawat">&#65018;</span></div>
+<div class="hero-season">Saison 1 — La Mecque</div>
+<div class="hero-bottom">
+<div class="hero-progress">
+<div class="hero-progress-label">
+<span>Episode 5/12</span>
+<span>42%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" style="width:42%"></div>
+</div>
+</div>
+<button class="hero-btn">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+Continuer
+</button>
+</div>
+</div>
+</div>
+
+<!-- Category chips -->
+<div class="categories fade-in fade-in-d2">
+<div class="cat-chip active">Sira</div>
+<div class="cat-chip">Compagnons</div>
+<div class="cat-chip">Savants</div>
+<div class="cat-chip">10 Promis au Paradis</div>
+<div class="cat-chip">Femmes remarquables</div>
+</div>
+
+<!-- Companions Section -->
+<div class="section-title fade-in fade-in-d2">
+<h2>Les Compagnons</h2>
+<span class="see-all">Voir tout</span>
+</div>
+
+<div class="companions-scroll fade-in fade-in-d3">
+<!-- Abu Bakr -->
+<div class="companion-card" onclick="showDetail()">
+<div class="cc-top">
+<div class="cc-number arabic">١</div>
+<div class="cc-format">
+<div class="fmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+<div class="fmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+</div>
+</div>
+<div class="cc-name">Abu Bakr As-Siddiq</div>
+<div class="cc-title-ar arabic">الصديق</div>
+<div class="cc-desc">Le premier homme libre a avoir embrasse l'Islam et le plus proche compagnon du Prophete.</div>
+<div class="cc-meta">
+<div class="cc-time">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+8 min
+</div>
+<div class="cc-time">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+12 min
+</div>
+</div>
+</div>
+
+<!-- Omar -->
+<div class="companion-card">
+<div class="cc-top">
+<div class="cc-number arabic">٢</div>
+<div class="cc-format">
+<div class="fmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+<div class="fmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+</div>
+</div>
+<div class="cc-name">Omar ibn Al-Khattab</div>
+<div class="cc-title-ar arabic">الفاروق</div>
+<div class="cc-desc">Le discerneur entre le vrai et le faux, dont la conversion fut une victoire pour l'Islam.</div>
+<div class="cc-meta">
+<div class="cc-time">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+10 min
+</div>
+<div class="cc-time">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+15 min
+</div>
+</div>
+</div>
+
+<!-- Uthman -->
+<div class="companion-card">
+<div class="cc-top">
+<div class="cc-number arabic">٣</div>
+<div class="cc-format">
+<div class="fmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+</div>
+</div>
+<div class="cc-name">Uthman ibn Affan</div>
+<div class="cc-title-ar arabic">ذو النورين</div>
+<div class="cc-desc">L'homme aux deux lumieres, connu pour sa generosite et sa pudeur exemplaire.</div>
+<div class="cc-meta">
+<div class="cc-time">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+7 min
+</div>
+</div>
+</div>
+
+<!-- Ali -->
+<div class="companion-card">
+<div class="cc-top">
+<div class="cc-number arabic">٤</div>
+<div class="cc-format">
+<div class="fmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+<div class="fmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+</div>
+</div>
+<div class="cc-name">Ali ibn Abi Talib</div>
+<div class="cc-title-ar arabic">أسد الله</div>
+<div class="cc-desc">Le lion d'Allah, premier jeune a embrasser l'Islam et porte du savoir prophetique.</div>
+<div class="cc-meta">
+<div class="cc-time">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+9 min
+</div>
+<div class="cc-time">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+14 min
+</div>
+</div>
+</div>
+</div>
+
+<!-- Themes Section -->
+<div class="section-title fade-in fade-in-d3">
+<h2>Themes</h2>
+<span class="see-all">Explorer</span>
+</div>
+
+<div class="themes-grid fade-in fade-in-d4">
+<div class="theme-card">
+<div class="theme-icon">&#x1F54A;&#xFE0F;</div>
+<div class="theme-name">Patience</div>
+<div class="theme-name-ar arabic">الصبر</div>
+</div>
+<div class="theme-card">
+<div class="theme-icon">&#x1F64F;</div>
+<div class="theme-name">Repentance</div>
+<div class="theme-name-ar arabic">التوبة</div>
+</div>
+<div class="theme-card">
+<div class="theme-icon">&#x2694;&#xFE0F;</div>
+<div class="theme-name">Courage</div>
+<div class="theme-name-ar arabic">الشجاعة</div>
+</div>
+<div class="theme-card">
+<div class="theme-icon">&#x1F3AF;</div>
+<div class="theme-name">Constance</div>
+<div class="theme-name-ar arabic">الاستقامة</div>
+</div>
+</div>
+
+<!-- Chronologie Section -->
+<div class="section-title fade-in fade-in-d4">
+<h2>Chronologie</h2>
+</div>
+
+<div class="timeline fade-in fade-in-d5">
+<div class="timeline-item">
+<div class="timeline-dot"><div class="dot-inner"></div></div>
+<div class="timeline-body">
+<div class="timeline-year">570</div>
+<div class="timeline-event">Naissance du Prophete &#65018;</div>
+<div class="timeline-desc">Annee de l'Elephant a La Mecque</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"><div class="dot-inner"></div></div>
+<div class="timeline-body">
+<div class="timeline-year">610</div>
+<div class="timeline-event">Debut de la Revelation</div>
+<div class="timeline-desc">Grotte de Hira - Sourate Al-Alaq</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"><div class="dot-inner"></div></div>
+<div class="timeline-body">
+<div class="timeline-year">622</div>
+<div class="timeline-event">La Hijra vers Medine</div>
+<div class="timeline-desc">Debut du calendrier islamique</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"><div class="dot-inner"></div></div>
+<div class="timeline-body">
+<div class="timeline-year">624</div>
+<div class="timeline-event">Bataille de Badr</div>
+<div class="timeline-desc">Premiere grande victoire de l'Islam</div>
+</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot"><div class="dot-inner"></div></div>
+<div class="timeline-body">
+<div class="timeline-year">630</div>
+<div class="timeline-event">Conquete de La Mecque</div>
+<div class="timeline-desc">Fath Makkah - Victoire pacifique</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+<a href="../home/dashboard.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+<span>Accueil</span>
+</a>
+<a href="../prayer/prayer.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg>
+<span>Priere</span>
+</a>
+<div class="nav-item" onclick="togglePlusMenu()" style="cursor:pointer;">
+<div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;margin-top:-10px;box-shadow:0 4px 20px rgba(212,175,85,0.3);">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#050507" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</div>
+</div>
+<a href="../dhikr/dhikr.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+<span>Dhikr</span>
+</a>
+<a href="../profile/profile.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<span>Profil</span>
+</a>
+</div>
+
+<div class="home-indicator"></div>
+</div>
+<div class="phone-label">Ecran 1 — Accueil Histoire</div>
+</div>
+
+<!-- ===================== SCREEN 2: STORY DETAIL ===================== -->
+<div>
+<div class="phone" id="phone2">
+<div class="dynamic-island"></div>
+
+<div class="screen" id="screen2">
+
+<!-- Detail Header -->
+<div class="detail-header fade-in">
+<div class="back-btn" onclick="goBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+</div>
+<div class="bookmark-btn" id="bookmarkBtn" onclick="toggleBookmark(this)">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"/></svg>
+</div>
+</div>
+
+<!-- Detail Hero -->
+<div class="detail-hero fade-in fade-in-d1">
+<div class="geo-pattern"></div>
+<div class="detail-hero-content">
+<div class="subtitle-badge">
+<svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+Les Compagnons
+</div>
+<h1>Abu Bakr As-Siddiq</h1>
+<div class="name-ar arabic">أبو بكر الصديق رضي الله عنه</div>
+<div class="epithet">Le Veridique — Premier Calife de l'Islam</div>
+</div>
+</div>
+
+<!-- Badges -->
+<div class="detail-badges fade-in fade-in-d2">
+<div class="d-badge read-badge">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+8 min de lecture
+</div>
+<div class="d-badge audio-badge">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+12 min audio
+</div>
+</div>
+
+<!-- Play Section -->
+<div class="play-section fade-in fade-in-d2">
+<div class="play-btn" id="playBtn" onclick="togglePlay()">
+<svg viewBox="0 0 24 24" fill="#050507"><path d="M5 3l14 9-14 9V3z"/></svg>
+</div>
+<div class="play-info">
+<div class="play-label">Narration audio</div>
+<div class="play-sub">Ecouter l'histoire complete</div>
+</div>
+</div>
+
+<!-- Story Content -->
+<div class="story-content fade-in fade-in-d3">
+<p>Abu Bakr, de son vrai nom Abdullah ibn Abi Quhafa, naquit a La Mecque environ deux ans apres l'Annee de l'Elephant. Marchand prospere et respecte parmi les Quraysh, il etait deja connu pour sa droiture, sa sagesse et son refus de l'idolatrie avant meme la revelation.</p>
+
+<div class="highlight">
+"Si je devais prendre un ami intime parmi les gens, j'aurais choisi Abu Bakr, mais la fraternite de l'Islam est plus grande."
+<br><em style="font-size:11px;color:var(--tertiary)">— Le Prophete &#65018;</em>
+</div>
+
+<p>Lorsque le Prophete &#65018; lui fit part de la revelation, Abu Bakr n'hesita pas un seul instant. Il fut le premier homme libre a embrasser l'Islam, sans poser de questions, sans demander de preuves. Cette acceptation immediate lui valut le surnom d'As-Siddiq, le Veridique.</p>
+
+<div class="verse arabic">
+إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ
+</div>
+
+<p>Sa generosite etait legendaire. Il depensa l'essentiel de sa fortune pour affranchir des esclaves musulmans persecutes, dont Bilal ibn Rabah. Lors de l'expedition de Tabuk, il donna la totalite de ses biens, ne gardant rien pour sa famille, s'en remettant entierement a Allah.</p>
+
+<p>Compagnon de la Hijra, il accompagna le Prophete &#65018; dans la grotte de Thawr, ou Allah revela le verset : "Ne sois pas triste, Allah est avec nous." Ce moment illustre la confiance absolue qu'il placait dans le decret divin.</p>
+</div>
+
+<!-- Reflection Card -->
+<div class="reflection-card fade-in fade-in-d4">
+<div class="reflection-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+</div>
+<div class="reflection-label">Reflexion</div>
+<div class="reflection-q">Que pouvez-vous appliquer de cette histoire dans votre vie quotidienne ? Comment la sincerite d'Abu Bakr peut-elle inspirer votre relation avec la verite ?</div>
+</div>
+
+<!-- Action Card -->
+<div class="action-card fade-in fade-in-d4">
+<div class="action-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+</div>
+<div>
+<div class="action-label">Action concrete</div>
+<div class="action-text">Aujourd'hui, identifiez une situation ou vous pouvez choisir la verite meme si elle est difficile. Comme Abu Bakr, cultivez la sincerite dans chaque parole et chaque acte.</div>
+</div>
+</div>
+
+<!-- Next Story -->
+<div class="next-story fade-in fade-in-d5">
+<div class="next-story-info">
+<div class="next-story-label">Histoire suivante</div>
+<div class="next-story-name">Omar ibn Al-Khattab</div>
+<div class="next-story-sub">Al-Farouq — Le Discerneur</div>
+</div>
+<div class="arrow">
+<svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+</div>
+</div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+<a href="../home/dashboard.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+<span>Accueil</span>
+</a>
+<a href="../prayer/prayer.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg>
+<span>Priere</span>
+</a>
+<div class="nav-item" onclick="togglePlusMenu()" style="cursor:pointer;">
+<div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;margin-top:-10px;box-shadow:0 4px 20px rgba(212,175,85,0.3);">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#050507" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</div>
+</div>
+<a href="../dhikr/dhikr.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+<span>Dhikr</span>
+</a>
+<a href="../profile/profile.html" class="nav-item" style="text-decoration:none;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<span>Profil</span>
+</a>
+</div>
+
+<div class="home-indicator"></div>
+</div>
+<div class="phone-label">Ecran 2 — Detail Histoire</div>
+</div>
+
+</div>
+
+<!-- Plus Menu Overlay -->
+<div id="plusMenuOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center;animation:plusFadeIn 0.3s ease;" onclick="closePlusMenu(event)">
+  <div id="plusMenuContainer" style="background:#131318;border-radius:16px;padding:24px;width:340px;max-width:90%;position:relative;animation:plusSlideUp 0.3s ease;">
+    <div onclick="closePlusMenu()" style="position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:8px;">
+      <a href="../duaa/duaa.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Du3aa</span></a>
+      <a href="../quran/quran.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Coran</span></a>
+      <a href="../hadith/hadith.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Hadith</span></a>
+      <a href="../history/history.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Histoire</span></a>
+      <a href="../calendar/calendar.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Calendrier</span></a>
+      <a href="../challenges/challenges.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Defis</span></a>
+      <a href="../names/names.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">99 Noms</span></a>
+      <a href="../media/media.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Medias</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- Watermark -->
+<div class="watermark">Noor — Maquette Histoire</div>
+
+<script>
+// Category chip toggle
+document.querySelectorAll('.cat-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Bookmark toggle
+function toggleBookmark(el) {
+  const svg = el.querySelector('svg');
+  const isFilled = svg.getAttribute('fill') !== 'none';
+  if (isFilled) {
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'var(--text)');
+  } else {
+    svg.setAttribute('fill', 'var(--gold)');
+    svg.setAttribute('stroke', 'var(--gold)');
+  }
+  el.style.transform = 'scale(1.2)';
+  setTimeout(() => el.style.transform = 'scale(1)', 200);
+}
+
+// Play toggle
+let isPlaying = false;
+function togglePlay() {
+  const btn = document.getElementById('playBtn');
+  isPlaying = !isPlaying;
+  if (isPlaying) {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="#050507" width="20" height="20"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+    btn.style.boxShadow = '0 4px 30px rgba(78,204,163,.5)';
+    document.querySelector('.play-label').textContent = 'En cours de lecture...';
+    document.querySelector('.play-sub').textContent = '0:42 / 12:00';
+  } else {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="#050507"><path d="M5 3l14 9-14 9V3z"/></svg>';
+    btn.style.boxShadow = '0 4px 20px rgba(78,204,163,.3)';
+    document.querySelector('.play-label').textContent = 'Narration audio';
+    document.querySelector('.play-sub').textContent = 'Ecouter l\'histoire complete';
+  }
+}
+
+// Smooth scroll sync for companion cards
+const scrollContainer = document.querySelector('.companions-scroll');
+let isDown = false, startX, scrollLeft;
+if (scrollContainer) {
+  scrollContainer.addEventListener('mousedown', e => {
+    isDown = true; startX = e.pageX - scrollContainer.offsetLeft;
+    scrollLeft = scrollContainer.scrollLeft;
+  });
+  scrollContainer.addEventListener('mouseleave', () => isDown = false);
+  scrollContainer.addEventListener('mouseup', () => isDown = false);
+  scrollContainer.addEventListener('mousemove', e => {
+    if (!isDown) return; e.preventDefault();
+    const x = e.pageX - scrollContainer.offsetLeft;
+    scrollContainer.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+}
+
+// Intersection observer for scroll animations
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.fade-in').forEach(el => {
+  observer.observe(el);
+});
+
+// Hero card progress animation
+setTimeout(() => {
+  const fill = document.querySelector('.progress-fill');
+  if (fill) fill.style.width = '42%';
+}, 500);
+
+// Nav item interaction
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const nav = this.closest('.bottom-nav');
+    nav.querySelectorAll('.nav-item').forEach(n => {
+      n.classList.remove('active');
+      const glow = n.querySelector('.nav-glow');
+      if (glow) glow.remove();
+    });
+    this.classList.add('active');
+    const glow = document.createElement('div');
+    glow.className = 'nav-glow';
+    this.prepend(glow);
+  });
+});
+
+// Theme card hover sound-like feedback
+document.querySelectorAll('.theme-card').forEach(card => {
+  card.addEventListener('click', function() {
+    this.style.transform = 'scale(0.96)';
+    setTimeout(() => this.style.transform = 'scale(1)', 150);
+  });
+});
+
+// Plus menu toggle
+function togglePlusMenu() {
+  var overlay = document.getElementById('plusMenuOverlay');
+  overlay.style.display = 'flex';
+}
+function closePlusMenu(event) {
+  if (!event || event.target === document.getElementById('plusMenuOverlay') || !event.target.closest('#plusMenuContainer') || event.currentTarget !== document.getElementById('plusMenuOverlay')) {
+    document.getElementById('plusMenuOverlay').style.display = 'none';
+  }
+}
+</script>
+
+</body>
+</html>

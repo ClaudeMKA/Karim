@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noor — Maquette Audio & Video</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after{margin:0;padding:0;box-sizing:border-box;scrollbar-width:none;-ms-overflow-style:none}
+*::-webkit-scrollbar{display:none}
+body{
+  font-family:'Inter',sans-serif;
+  background:#0a0a0f;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  gap:48px;
+  padding:40px 20px 60px;
+  min-height:100vh;
+  flex-wrap:wrap;
+  overflow-x:hidden;
+}
+.label{
+  width:100%;
+  text-align:center;
+  color:#8e8e93;
+  font-size:13px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:-20px;
+  font-weight:500;
+}
+.screen-label{
+  text-align:center;
+  color:#555560;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-top:14px;
+  font-weight:500;
+}
+
+/* Phone Frame */
+.phone{
+  width:393px;
+  height:852px;
+  border-radius:55px;
+  border:3px solid #1c1c24;
+  background:#050507;
+  position:relative;
+  overflow:hidden;
+  flex-shrink:0;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 25px 60px rgba(0,0,0,0.6),
+    0 0 80px rgba(212,175,85,0.03);
+}
+
+/* Dynamic Island */
+.dynamic-island{
+  width:126px;
+  height:36px;
+  background:#0a0a0a;
+  border-radius:20px;
+  position:absolute;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:100;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+/* Home Indicator */
+.home-indicator{
+  width:134px;
+  height:5px;
+  background:rgba(255,255,255,0.25);
+  border-radius:3px;
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:100;
+}
+
+/* Screen Content */
+.screen{
+  width:100%;
+  height:100%;
+  overflow-y:auto;
+  padding:60px 0 90px;
+  -ms-overflow-style:none;
+  scrollbar-width:none;
+}
+.screen::-webkit-scrollbar{display:none;}
+
+/* Status Bar */
+.status-bar{
+  position:absolute;
+  top:14px;
+  left:36px;
+  right:36px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:90;
+  font-size:12px;
+  font-weight:600;
+  color:#f5f5f7;
+}
+.status-bar-right{
+  display:flex;
+  gap:5px;
+  align-items:center;
+}
+
+/* Bottom Nav */
+.bottom-nav{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:85px;
+  background:linear-gradient(to top, rgba(5,5,7,0.98) 60%, rgba(5,5,7,0.85) 80%, transparent);
+  display:flex;
+  justify-content:space-around;
+  align-items:flex-start;
+  padding-top:10px;
+  z-index:90;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.nav-item svg{width:24px;height:24px;}
+.nav-item span{font-size:10px;font-weight:500;color:#555560;}
+.nav-item.active span{
+  background:linear-gradient(135deg,#d4af55 0%,#f0d78c 50%,#d4af55 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  margin-bottom:20px;
+}
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.header-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#ef4444 0%,#f59e0b 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.header-title{
+  font-size:22px;
+  font-weight:700;
+  color:#f5f5f7;
+}
+.header-search{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+/* Featured Banner */
+.featured-banner{
+  margin:0 20px 24px;
+  height:200px;
+  border-radius:20px;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  background:linear-gradient(135deg,#1a0a2e 0%,#2d1b4e 30%,#4a1942 60%,#1a0a2e 100%);
+}
+.featured-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(5,5,7,0.95) 0%, rgba(5,5,7,0.3) 50%, transparent 100%);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:20px;
+}
+.featured-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:rgba(239,68,68,0.2);
+  border:1px solid rgba(239,68,68,0.3);
+  border-radius:6px;
+  padding:3px 8px;
+  font-size:10px;
+  font-weight:600;
+  color:#ef4444;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  margin-bottom:8px;
+  width:fit-content;
+}
+.featured-title{
+  font-size:20px;
+  font-weight:700;
+  color:#f5f5f7;
+  line-height:1.3;
+  margin-bottom:4px;
+}
+.featured-sub{
+  font-size:13px;
+  color:#8e8e93;
+  margin-bottom:12px;
+}
+.featured-play{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-60%);
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:rgba(212,175,85,0.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 20px rgba(212,175,85,0.4);
+}
+.featured-duration{
+  position:absolute;
+  top:16px;
+  right:16px;
+  background:rgba(0,0,0,0.6);
+  border-radius:6px;
+  padding:4px 8px;
+  font-size:11px;
+  font-weight:600;
+  color:#f5f5f7;
+  backdrop-filter:blur(10px);
+}
+.featured-mosaic{
+  position:absolute;
+  top:20px;
+  left:20px;
+  width:60px;
+  height:60px;
+  opacity:0.15;
+}
+.featured-mosaic-inner{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+  width:100%;
+  height:100%;
+}
+.featured-mosaic-inner span{
+  background:#d4af55;
+  border-radius:1px;
+}
+
+/* Category Tabs */
+.category-tabs{
+  display:flex;
+  gap:8px;
+  padding:0 20px;
+  margin-bottom:24px;
+  overflow-x:auto;
+  -ms-overflow-style:none;
+  scrollbar-width:none;
+}
+.category-tabs::-webkit-scrollbar{display:none;}
+.cat-tab{
+  padding:8px 18px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:600;
+  white-space:nowrap;
+  cursor:pointer;
+  transition:all 0.3s;
+  border:1px solid transparent;
+}
+.cat-tab.active{
+  background:linear-gradient(135deg,#d4af55 0%,#f0d78c 50%,#d4af55 100%);
+  color:#050507;
+}
+.cat-tab:not(.active){
+  background:rgba(255,255,255,0.05);
+  color:#8e8e93;
+  border-color:rgba(255,255,255,0.06);
+}
+
+/* Section Title */
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 20px;
+  margin-bottom:14px;
+}
+.section-title{
+  font-size:17px;
+  font-weight:700;
+  color:#f5f5f7;
+}
+.section-more{
+  font-size:12px;
+  font-weight:600;
+  background:linear-gradient(135deg,#d4af55,#f0d78c);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  cursor:pointer;
+}
+
+/* Horizontal Scroll */
+.h-scroll{
+  display:flex;
+  gap:14px;
+  padding:0 20px;
+  overflow-x:auto;
+  margin-bottom:28px;
+  -ms-overflow-style:none;
+  scrollbar-width:none;
+}
+.h-scroll::-webkit-scrollbar{display:none;}
+
+/* Album Cards */
+.album-card{
+  flex-shrink:0;
+  width:140px;
+  cursor:pointer;
+  transition:transform 0.2s;
+}
+.album-card:hover{transform:scale(1.03);}
+.album-art{
+  width:140px;
+  height:140px;
+  border-radius:14px;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:10px;
+}
+.album-art-play{
+  position:absolute;
+  bottom:8px;
+  right:8px;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:rgba(212,175,85,0.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity 0.2s;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+.album-card:hover .album-art-play{opacity:1;}
+.album-duration{
+  position:absolute;
+  bottom:8px;
+  left:8px;
+  font-size:10px;
+  font-weight:600;
+  color:#fff;
+  background:rgba(0,0,0,0.6);
+  padding:2px 6px;
+  border-radius:4px;
+  backdrop-filter:blur(4px);
+}
+.album-reciter{
+  font-size:13px;
+  font-weight:600;
+  color:#f5f5f7;
+  margin-bottom:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.album-surah{
+  font-size:11px;
+  color:#8e8e93;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* Conference List */
+.conf-list{
+  padding:0 20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:28px;
+}
+.conf-item{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background:#131318;
+  border-radius:14px;
+  padding:10px;
+  cursor:pointer;
+  transition:background 0.2s;
+  border:1px solid rgba(255,255,255,0.03);
+}
+.conf-item:hover{background:#1a1a22;}
+.conf-thumb{
+  width:80px;
+  height:60px;
+  border-radius:10px;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+}
+.conf-thumb-play{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.3);
+}
+.conf-info{
+  flex:1;
+  min-width:0;
+}
+.conf-title{
+  font-size:13px;
+  font-weight:600;
+  color:#f5f5f7;
+  margin-bottom:3px;
+  line-height:1.3;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.conf-speaker{
+  font-size:11px;
+  color:#8e8e93;
+  margin-bottom:4px;
+}
+.conf-meta{
+  display:flex;
+  gap:10px;
+  font-size:10px;
+  color:#555560;
+}
+.conf-meta span{
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+
+/* Course Cards */
+.cours-list{
+  padding:0 20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-bottom:28px;
+}
+.cours-card{
+  background:#131318;
+  border-radius:14px;
+  padding:14px;
+  cursor:pointer;
+  transition:background 0.2s;
+  border:1px solid rgba(255,255,255,0.03);
+}
+.cours-card:hover{background:#1a1a22;}
+.cours-top{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:10px;
+}
+.cours-icon{
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.cours-info{flex:1;min-width:0;}
+.cours-title{
+  font-size:14px;
+  font-weight:600;
+  color:#f5f5f7;
+  margin-bottom:2px;
+}
+.cours-sub{
+  font-size:11px;
+  color:#8e8e93;
+}
+.cours-progress-bar{
+  width:100%;
+  height:4px;
+  background:rgba(255,255,255,0.06);
+  border-radius:2px;
+  overflow:hidden;
+}
+.cours-progress-fill{
+  height:100%;
+  border-radius:2px;
+  background:linear-gradient(90deg,#4ecca3,#4ecca3);
+}
+.cours-progress-text{
+  display:flex;
+  justify-content:space-between;
+  margin-top:6px;
+  font-size:10px;
+  color:#555560;
+}
+
+/* ============ PLAYER SCREEN ============ */
+.player-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 20px;
+  margin-bottom:24px;
+}
+.player-header-left,.player-header-right{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.player-btn{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,0.04);
+  transition:background 0.2s;
+}
+.player-btn:hover{background:rgba(255,255,255,0.1);}
+.player-now{
+  text-align:center;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:#8e8e93;
+}
+
+/* Album Art */
+.player-art-container{
+  display:flex;
+  justify-content:center;
+  padding:0 20px;
+  margin-bottom:32px;
+}
+.player-art{
+  width:260px;
+  height:260px;
+  border-radius:24px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.player-art-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:6px;
+}
+.player-art-icon{
+  opacity:0.3;
+}
+
+/* Track Info */
+.player-track-info{
+  text-align:center;
+  padding:0 30px;
+  margin-bottom:28px;
+}
+.player-track-title{
+  font-size:20px;
+  font-weight:700;
+  color:#f5f5f7;
+  margin-bottom:4px;
+}
+.player-track-artist{
+  font-size:14px;
+  color:#8e8e93;
+}
+
+/* Progress Bar */
+.player-progress{
+  padding:0 30px;
+  margin-bottom:8px;
+}
+.progress-track{
+  width:100%;
+  height:4px;
+  background:rgba(255,255,255,0.08);
+  border-radius:2px;
+  position:relative;
+  cursor:pointer;
+}
+.progress-fill{
+  width:35%;
+  height:100%;
+  background:linear-gradient(90deg,#d4af55,#f0d78c);
+  border-radius:2px;
+  position:relative;
+}
+.progress-thumb{
+  position:absolute;
+  right:-6px;
+  top:50%;
+  transform:translateY(-50%);
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#f0d78c;
+  box-shadow:0 0 8px rgba(212,175,85,0.5);
+}
+.player-time{
+  display:flex;
+  justify-content:space-between;
+  padding:0 30px;
+  margin-bottom:28px;
+  font-size:11px;
+  font-weight:500;
+  color:#555560;
+}
+
+/* Controls */
+.player-controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+  margin-bottom:28px;
+}
+.ctrl-btn{
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform 0.15s;
+  color:#f5f5f7;
+}
+.ctrl-btn:hover{transform:scale(1.1);}
+.ctrl-btn.small{color:#8e8e93;}
+.ctrl-play{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#d4af55 0%,#f0d78c 50%,#d4af55 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform 0.15s;
+  box-shadow:0 4px 20px rgba(212,175,85,0.4);
+}
+.ctrl-play:hover{transform:scale(1.08);}
+
+/* Speed Selector */
+.speed-selector{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:24px;
+}
+.speed-btn{
+  padding:6px 14px;
+  border-radius:16px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  border:1px solid transparent;
+}
+.speed-btn.active{
+  background:rgba(212,175,85,0.15);
+  color:#d4af55;
+  border-color:rgba(212,175,85,0.3);
+}
+.speed-btn:not(.active){
+  background:rgba(255,255,255,0.04);
+  color:#555560;
+}
+
+/* Volume */
+.volume-section{
+  padding:0 40px;
+  margin-bottom:20px;
+}
+.volume-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.volume-track{
+  flex:1;
+  height:4px;
+  background:rgba(255,255,255,0.08);
+  border-radius:2px;
+  position:relative;
+}
+.volume-fill{
+  width:65%;
+  height:100%;
+  background:rgba(255,255,255,0.25);
+  border-radius:2px;
+}
+
+/* Video placeholder */
+.video-art{
+  width:300px;
+  height:180px;
+  border-radius:16px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.video-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Mini player */
+.mini-player-label{
+  text-align:center;
+  font-size:10px;
+  color:#555560;
+  letter-spacing:0.5px;
+  margin-bottom:4px;
+}
+
+/* Animations */
+@keyframes pulse-glow{
+  0%,100%{box-shadow:0 4px 20px rgba(212,175,85,0.3);}
+  50%{box-shadow:0 4px 30px rgba(212,175,85,0.6);}
+}
+.ctrl-play{animation:pulse-glow 2s infinite;}
+
+/* Geometric decorations */
+.geo-pattern{
+  position:absolute;
+  opacity:0.04;
+  pointer-events:none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="label">Noor — Maquette Audio & Video</div>
+
+<!-- ==================== SCREEN 1: MEDIA HOME ==================== -->
+<div>
+<div class="phone" id="screen1">
+  <div class="dynamic-island"></div>
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="status-bar-right">
+      <svg width="16" height="12" fill="#f5f5f7"><rect x="0" y="5" width="3" height="7" rx="0.5"/><rect x="4" y="3" width="3" height="9" rx="0.5"/><rect x="8" y="1" width="3" height="11" rx="0.5"/><rect x="12" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="#f5f5f7"><path d="M8 2.4C5.6 2.4 3.4 3.3 1.8 4.8L0 3C2 1.1 4.9 0 8 0s6 1.1 8 3l-1.8 1.8C12.6 3.3 10.4 2.4 8 2.4zM8 7.2c-1.5 0-2.8.6-3.8 1.5L2.4 6.9C3.8 5.6 5.8 4.8 8 4.8s4.2.8 5.6 2.1l-1.8 1.8C10.8 7.8 9.5 7.2 8 7.2zM8 12l-2.4-2.4c.6-.7 1.5-1.2 2.4-1.2.9 0 1.8.5 2.4 1.2L8 12z"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="#f5f5f7"><rect x="0" y="1" width="21" height="10" rx="2" stroke="#f5f5f7" stroke-width="1" fill="none"/><rect x="22" y="4" width="2" height="4" rx="0.5"/><rect x="1.5" y="2.5" width="14" height="7" rx="1" fill="#4ecca3"/></svg>
+    </div>
+  </div>
+
+  <div class="screen" id="mediaHome">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        </div>
+        <span class="header-title">Audio & Video</span>
+      </div>
+      <div class="header-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+    </div>
+
+    <!-- Featured Banner -->
+    <div class="featured-banner" onclick="showPlayer('video')">
+      <!-- Geometric pattern overlay -->
+      <div class="featured-mosaic">
+        <div class="featured-mosaic-inner">
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="featured-play">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#050507"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="featured-duration">45 min</div>
+      <div class="featured-overlay">
+        <div class="featured-badge">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="#ef4444"><circle cx="12" cy="12" r="6"/></svg>
+          En vedette
+        </div>
+        <div class="featured-title">Les Plus Belles Recitations</div>
+        <div class="featured-sub">Compilation — Les voix les plus emouvantes</div>
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      <div class="cat-tab active" onclick="switchTab(this)">Recitations</div>
+      <div class="cat-tab" onclick="switchTab(this)">Conferences</div>
+      <div class="cat-tab" onclick="switchTab(this)">Cours</div>
+      <div class="cat-tab" onclick="switchTab(this)">Nasheeds</div>
+    </div>
+
+    <!-- Recitations populaires -->
+    <div class="section-header">
+      <span class="section-title">Recitations populaires</span>
+      <span class="section-more">Voir tout</span>
+    </div>
+    <div class="h-scroll">
+
+      <div class="album-card" onclick="showPlayer('audio')">
+        <div class="album-art" style="background:linear-gradient(135deg,#1a3a5c 0%,#2d5a87 40%,#1a3a5c 100%);">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="rgba(255,255,255,0.08)" stroke="none"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:8px;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);">
+            <div style="font-family:'Amiri',serif;font-size:16px;color:rgba(255,255,255,0.7);text-align:center;">البقرة</div>
+          </div>
+          <div class="album-art-play">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#050507"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="album-duration">1h 32m</div>
+        </div>
+        <div class="album-reciter">Mishary Rashid</div>
+        <div class="album-surah">Al-Baqarah</div>
+      </div>
+
+      <div class="album-card" onclick="showPlayer('audio')">
+        <div class="album-art" style="background:linear-gradient(135deg,#2d1b4e 0%,#5b2d8e 40%,#2d1b4e 100%);">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="rgba(255,255,255,0.08)" stroke="none"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:8px;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);">
+            <div style="font-family:'Amiri',serif;font-size:16px;color:rgba(255,255,255,0.7);text-align:center;">يس</div>
+          </div>
+          <div class="album-art-play">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#050507"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="album-duration">24 min</div>
+        </div>
+        <div class="album-reciter">Abdul Basit</div>
+        <div class="album-surah">Yasin</div>
+      </div>
+
+      <div class="album-card" onclick="showPlayer('audio')">
+        <div class="album-art" style="background:linear-gradient(135deg,#1a4a3a 0%,#2d7a5a 40%,#1a4a3a 100%);">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="rgba(255,255,255,0.08)" stroke="none"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:8px;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);">
+            <div style="font-family:'Amiri',serif;font-size:16px;color:rgba(255,255,255,0.7);text-align:center;">الرحمن</div>
+          </div>
+          <div class="album-art-play">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#050507"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="album-duration">18 min</div>
+        </div>
+        <div class="album-reciter">Sudais</div>
+        <div class="album-surah">Ar-Rahman</div>
+      </div>
+
+      <div class="album-card" onclick="showPlayer('audio')">
+        <div class="album-art" style="background:linear-gradient(135deg,#4a2020 0%,#8b3a3a 40%,#4a2020 100%);">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="rgba(255,255,255,0.08)" stroke="none"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:8px;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);">
+            <div style="font-family:'Amiri',serif;font-size:16px;color:rgba(255,255,255,0.7);text-align:center;">الملك</div>
+          </div>
+          <div class="album-art-play">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#050507"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="album-duration">12 min</div>
+        </div>
+        <div class="album-reciter">Al-Afasy</div>
+        <div class="album-surah">Al-Mulk</div>
+      </div>
+
+    </div>
+
+    <!-- Conferences recentes -->
+    <div class="section-header">
+      <span class="section-title">Conferences recentes</span>
+      <span class="section-more">Voir tout</span>
+    </div>
+    <div class="conf-list">
+
+      <div class="conf-item" onclick="showPlayer('video')">
+        <div class="conf-thumb" style="background:linear-gradient(135deg,#2a1f3d,#4a3566);">
+          <div class="conf-thumb-play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" opacity="0.8"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="conf-info">
+          <div class="conf-title">La patience en Islam</div>
+          <div class="conf-speaker">Sheikh Ahmad Deedat</div>
+          <div class="conf-meta">
+            <span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="#555560"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke="#131318" stroke-width="2" fill="none"/></svg>
+              32 min
+            </span>
+            <span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="#555560"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" fill="#131318"/></svg>
+              12.4k vues
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="conf-item" onclick="showPlayer('video')">
+        <div class="conf-thumb" style="background:linear-gradient(135deg,#1a3333,#2d5555);">
+          <div class="conf-thumb-play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" opacity="0.8"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="conf-info">
+          <div class="conf-title">Les bienfaits du dhikr quotidien</div>
+          <div class="conf-speaker">Sheikh Yusuf Al-Qaradawi</div>
+          <div class="conf-meta">
+            <span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="#555560"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke="#131318" stroke-width="2" fill="none"/></svg>
+              48 min
+            </span>
+            <span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="#555560"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" fill="#131318"/></svg>
+              8.7k vues
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="conf-item" onclick="showPlayer('audio')">
+        <div class="conf-thumb" style="background:linear-gradient(135deg,#3d2a1a,#665533);">
+          <div class="conf-thumb-play">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" opacity="0.8"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="conf-info">
+          <div class="conf-title">Comprendre la sourate Al-Kahf</div>
+          <div class="conf-speaker">Dr. Tariq Ramadan</div>
+          <div class="conf-meta">
+            <span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="#555560"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke="#131318" stroke-width="2" fill="none"/></svg>
+              1h 05m
+            </span>
+            <span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="#555560"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3" fill="#131318"/></svg>
+              21.3k vues
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Cours -->
+    <div class="section-header">
+      <span class="section-title">Cours</span>
+      <span class="section-more">Voir tout</span>
+    </div>
+    <div class="cours-list">
+
+      <div class="cours-card" onclick="showPlayer('audio')">
+        <div class="cours-top">
+          <div class="cours-icon" style="background:linear-gradient(135deg,rgba(78,204,163,0.15),rgba(78,204,163,0.05));border:1px solid rgba(78,204,163,0.15);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#4ecca3"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+          </div>
+          <div class="cours-info">
+            <div class="cours-title">Tajweed pour debutants</div>
+            <div class="cours-sub">12 episodes -- Sheikh Omar Hisham</div>
+          </div>
+        </div>
+        <div class="cours-progress-bar">
+          <div class="cours-progress-fill" style="width:58%;"></div>
+        </div>
+        <div class="cours-progress-text">
+          <span>7/12 episodes</span>
+          <span>58% termine</span>
+        </div>
+      </div>
+
+      <div class="cours-card" onclick="showPlayer('audio')">
+        <div class="cours-top">
+          <div class="cours-icon" style="background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(139,92,246,0.05));border:1px solid rgba(139,92,246,0.15);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#8b5cf6"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg>
+          </div>
+          <div class="cours-info">
+            <div class="cours-title">Les piliers de l'Islam</div>
+            <div class="cours-sub">8 episodes -- Dr. Mahmoud</div>
+          </div>
+        </div>
+        <div class="cours-progress-bar">
+          <div class="cours-progress-fill" style="width:25%;background:#8b5cf6;"></div>
+        </div>
+        <div class="cours-progress-text">
+          <span>2/8 episodes</span>
+          <span>25% termine</span>
+        </div>
+      </div>
+
+      <div class="cours-card">
+        <div class="cours-top">
+          <div class="cours-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border:1px solid rgba(245,158,11,0.15);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+          <div class="cours-info">
+            <div class="cours-title">Histoires des Prophetes</div>
+            <div class="cours-sub">20 episodes -- Sheikh Nabil</div>
+          </div>
+        </div>
+        <div class="cours-progress-bar">
+          <div class="cours-progress-fill" style="width:0%;"></div>
+        </div>
+        <div class="cours-progress-text">
+          <span>0/20 episodes</span>
+          <span>Nouveau</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="height:20px;"></div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <a href="../home/dashboard.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Accueil</span>
+    </a>
+    <a href="../prayer/prayer.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg>
+      <span>Priere</span>
+    </a>
+    <div class="nav-item" onclick="togglePlusMenu()" style="cursor:pointer">
+      <svg viewBox="0 0 24 24" fill="none"><defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4af55"/><stop offset="50%" stop-color="#f0d78c"/><stop offset="100%" stop-color="#d4af55"/></linearGradient></defs><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="url(#ng)"/></svg>
+      <span style="background:linear-gradient(135deg,#d4af55,#f0d78c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Plus</span>
+    </div>
+    <a href="../dhikr/dhikr.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+      <span>Dhikr</span>
+    </a>
+    <a href="../profile/profile.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profil</span>
+    </a>
+  </div>
+
+  <div class="home-indicator"></div>
+</div>
+<div class="screen-label">Ecran 1 — Media Home</div>
+</div>
+
+
+<!-- ==================== SCREEN 2: PLAYER ==================== -->
+<div>
+<div class="phone" id="screen2">
+  <div class="dynamic-island"></div>
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="status-bar-right">
+      <svg width="16" height="12" fill="#f5f5f7"><rect x="0" y="5" width="3" height="7" rx="0.5"/><rect x="4" y="3" width="3" height="9" rx="0.5"/><rect x="8" y="1" width="3" height="11" rx="0.5"/><rect x="12" y="0" width="3" height="12" rx="0.5"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="#f5f5f7"><path d="M8 2.4C5.6 2.4 3.4 3.3 1.8 4.8L0 3C2 1.1 4.9 0 8 0s6 1.1 8 3l-1.8 1.8C12.6 3.3 10.4 2.4 8 2.4zM8 7.2c-1.5 0-2.8.6-3.8 1.5L2.4 6.9C3.8 5.6 5.8 4.8 8 4.8s4.2.8 5.6 2.1l-1.8 1.8C10.8 7.8 9.5 7.2 8 7.2zM8 12l-2.4-2.4c.6-.7 1.5-1.2 2.4-1.2.9 0 1.8.5 2.4 1.2L8 12z"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="#f5f5f7"><rect x="0" y="1" width="21" height="10" rx="2" stroke="#f5f5f7" stroke-width="1" fill="none"/><rect x="22" y="4" width="2" height="4" rx="0.5"/><rect x="1.5" y="2.5" width="14" height="7" rx="1" fill="#4ecca3"/></svg>
+    </div>
+  </div>
+
+  <div class="screen" id="playerScreen">
+
+    <!-- Player Header -->
+    <div class="player-header">
+      <div class="player-header-left">
+        <div class="player-btn" onclick="hidePlayer()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5f5f7" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </div>
+      </div>
+      <div class="player-now">En cours de lecture</div>
+      <div class="player-header-right">
+        <div class="player-btn" id="favBtn" onclick="toggleFav()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="player-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Album Art (Audio) -->
+    <div class="player-art-container" id="audioArt">
+      <div class="player-art" style="background:linear-gradient(135deg,#1a3a5c 0%,#2d5a87 30%,#1a5a8c 60%,#0d2b45 100%);">
+        <div class="player-art-overlay">
+          <svg class="player-art-icon" width="60" height="60" viewBox="0 0 24 24" fill="rgba(255,255,255,0.2)"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+          <div style="font-family:'Amiri',serif;font-size:32px;color:rgba(255,255,255,0.25);margin-top:8px;">البقرة</div>
+        </div>
+        <!-- Decorative rings -->
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+          <div style="width:180px;height:180px;border-radius:50%;border:1px solid rgba(255,255,255,0.04);"></div>
+        </div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+          <div style="width:130px;height:130px;border-radius:50%;border:1px solid rgba(255,255,255,0.03);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Art (hidden by default) -->
+    <div class="player-art-container" id="videoArt" style="display:none;">
+      <div class="video-art" style="background:linear-gradient(135deg,#2a1f3d,#4a3566,#2a1f3d);">
+        <div class="video-overlay">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(212,175,85,0.9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(212,175,85,0.4);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#050507"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <!-- Video timeline markers -->
+        <div style="position:absolute;bottom:8px;left:12px;right:12px;display:flex;gap:2px;">
+          <div style="flex:3;height:3px;background:rgba(212,175,85,0.7);border-radius:2px;"></div>
+          <div style="flex:7;height:3px;background:rgba(255,255,255,0.15);border-radius:2px;"></div>
+        </div>
+        <!-- Video badge -->
+        <div style="position:absolute;top:10px;left:10px;background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.3);border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700;color:#ef4444;text-transform:uppercase;">Video</div>
+      </div>
+    </div>
+
+    <!-- Track Info -->
+    <div class="player-track-info">
+      <div class="player-track-title" id="playerTitle">Al-Baqarah</div>
+      <div class="player-track-artist" id="playerArtist">Mishary Rashid Al Afasy</div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="player-progress">
+      <div class="progress-track" id="progressTrack">
+        <div class="progress-fill" id="progressFill">
+          <div class="progress-thumb"></div>
+        </div>
+      </div>
+    </div>
+    <div class="player-time">
+      <span id="currentTime">32:15</span>
+      <span id="totalTime">1:32:04</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="player-controls">
+      <div class="ctrl-btn small" id="shuffleBtn" onclick="toggleShuffle()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+      </div>
+      <div class="ctrl-btn">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+      </div>
+      <div class="ctrl-play" id="playBtn" onclick="togglePlay()">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#050507" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#050507" id="pauseIcon" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </div>
+      <div class="ctrl-btn">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+      </div>
+      <div class="ctrl-btn small" id="repeatBtn" onclick="toggleRepeat()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </div>
+    </div>
+
+    <!-- Speed Selector -->
+    <div class="speed-selector">
+      <div class="speed-btn" onclick="setSpeed(this)">0.75x</div>
+      <div class="speed-btn active" onclick="setSpeed(this)">1x</div>
+      <div class="speed-btn" onclick="setSpeed(this)">1.25x</div>
+      <div class="speed-btn" onclick="setSpeed(this)">1.5x</div>
+    </div>
+
+    <!-- Volume -->
+    <div class="volume-section">
+      <div class="volume-row">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#555560"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>
+        <div class="volume-track">
+          <div class="volume-fill" id="volumeFill"></div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#555560"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+      </div>
+    </div>
+
+    <div class="mini-player-label">Recitation du Saint Coran</div>
+
+    <div style="height:20px;"></div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <a href="../home/dashboard.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Accueil</span>
+    </a>
+    <a href="../prayer/prayer.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg>
+      <span>Priere</span>
+    </a>
+    <div class="nav-item" onclick="togglePlusMenu()" style="cursor:pointer">
+      <svg viewBox="0 0 24 24" fill="none"><defs><linearGradient id="ng2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4af55"/><stop offset="50%" stop-color="#f0d78c"/><stop offset="100%" stop-color="#d4af55"/></linearGradient></defs><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="url(#ng2)"/></svg>
+      <span style="background:linear-gradient(135deg,#d4af55,#f0d78c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Plus</span>
+    </div>
+    <a href="../dhikr/dhikr.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+      <span>Dhikr</span>
+    </a>
+    <a href="../profile/profile.html" class="nav-item" style="text-decoration:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#555560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profil</span>
+    </a>
+  </div>
+
+  <div class="home-indicator"></div>
+</div>
+<div class="screen-label">Ecran 2 — Lecteur</div>
+</div>
+
+<!-- Plus Menu Overlay -->
+<div id="plusMenuOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:9999;opacity:0;transition:opacity 0.3s ease;justify-content:center;align-items:center">
+  <div id="plusMenuContainer" style="background:#131318;border-radius:20px;padding:24px;max-width:340px;width:90%;position:relative;transform:translateY(20px);opacity:0;transition:transform 0.3s ease-out,opacity 0.3s ease-out">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <span style="color:#fff;font-size:16px;font-weight:600;font-family:'Inter',sans-serif">Explorer</span>
+      <div onclick="closePlusMenu()" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <a href="../duaa/duaa.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">Du3aa</span>
+      </a>
+      <a href="../quran/quran.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2V3zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7V3z"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">Coran</span>
+      </a>
+      <a href="../hadith/hadith.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">Hadith</span>
+      </a>
+      <a href="../history/history.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">Histoire</span>
+      </a>
+      <a href="../calendar/calendar.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">Calendrier</span>
+      </a>
+      <a href="../challenges/challenges.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">Defis</span>
+      </a>
+      <a href="../names/names.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">99 Noms</span>
+      </a>
+      <a href="../media/media.html" style="text-decoration:none;display:flex;flex-direction:column;align-items:center">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;text-align:center;font-family:'Inter',sans-serif">Medias</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePlusMenu() {
+  var overlay = document.getElementById('plusMenuOverlay');
+  var container = document.getElementById('plusMenuContainer');
+  overlay.style.display = 'flex';
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      overlay.style.opacity = '1';
+      container.style.transform = 'translateY(0)';
+      container.style.opacity = '1';
+    });
+  });
+}
+function closePlusMenu() {
+  var overlay = document.getElementById('plusMenuOverlay');
+  var container = document.getElementById('plusMenuContainer');
+  overlay.style.opacity = '0';
+  container.style.transform = 'translateY(20px)';
+  container.style.opacity = '0';
+  setTimeout(function() { overlay.style.display = 'none'; }, 300);
+}
+document.getElementById('plusMenuOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closePlusMenu();
+});
+
+// Tab switching
+function switchTab(el) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Show player type (audio vs video)
+function showPlayer(type) {
+  const audioArt = document.getElementById('audioArt');
+  const videoArt = document.getElementById('videoArt');
+  const title = document.getElementById('playerTitle');
+  const artist = document.getElementById('playerArtist');
+
+  if (type === 'video') {
+    audioArt.style.display = 'none';
+    videoArt.style.display = 'flex';
+    title.textContent = 'La patience en Islam';
+    artist.textContent = 'Sheikh Ahmad Deedat';
+    document.getElementById('totalTime').textContent = '32:00';
+    document.getElementById('currentTime').textContent = '11:42';
+  } else {
+    audioArt.style.display = 'flex';
+    videoArt.style.display = 'none';
+    title.textContent = 'Al-Baqarah';
+    artist.textContent = 'Mishary Rashid Al Afasy';
+    document.getElementById('totalTime').textContent = '1:32:04';
+    document.getElementById('currentTime').textContent = '32:15';
+  }
+
+  // Scroll player screen to top
+  document.getElementById('playerScreen').scrollTop = 0;
+
+  // Visual feedback - briefly highlight the player phone
+  const phone = document.getElementById('screen2');
+  phone.style.boxShadow = '0 0 0 2px rgba(212,175,85,0.4), 0 25px 60px rgba(0,0,0,0.6)';
+  setTimeout(() => {
+    phone.style.boxShadow = '0 0 0 1px rgba(255,255,255,0.04), 0 25px 60px rgba(0,0,0,0.6), 0 0 80px rgba(212,175,85,0.03)';
+  }, 600);
+}
+
+// Toggle play/pause
+let isPlaying = false;
+function togglePlay() {
+  isPlaying = !isPlaying;
+  document.getElementById('playIcon').style.display = isPlaying ? 'none' : 'block';
+  document.getElementById('pauseIcon').style.display = isPlaying ? 'block' : 'none';
+
+  const btn = document.getElementById('playBtn');
+  if (isPlaying) {
+    btn.style.animation = 'none';
+  } else {
+    btn.style.animation = 'pulse-glow 2s infinite';
+  }
+}
+
+// Favorite toggle
+let isFav = false;
+function toggleFav() {
+  isFav = !isFav;
+  const btn = document.getElementById('favBtn');
+  const svg = btn.querySelector('svg');
+  if (isFav) {
+    svg.setAttribute('fill', '#ef4444');
+    svg.setAttribute('stroke', '#ef4444');
+  } else {
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', '#8e8e93');
+  }
+}
+
+// Shuffle toggle
+let shuffleOn = false;
+function toggleShuffle() {
+  shuffleOn = !shuffleOn;
+  const btn = document.getElementById('shuffleBtn');
+  btn.style.color = shuffleOn ? '#d4af55' : '#8e8e93';
+}
+
+// Repeat toggle
+let repeatOn = false;
+function toggleRepeat() {
+  repeatOn = !repeatOn;
+  const btn = document.getElementById('repeatBtn');
+  btn.style.color = repeatOn ? '#d4af55' : '#8e8e93';
+}
+
+// Speed selector
+function setSpeed(el) {
+  document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Progress bar dragging
+const progressTrack = document.getElementById('progressTrack');
+const progressFill = document.getElementById('progressFill');
+
+function updateProgress(e) {
+  const rect = progressTrack.getBoundingClientRect();
+  let pct = ((e.clientX || e.touches[0].clientX) - rect.left) / rect.width;
+  pct = Math.max(0, Math.min(1, pct));
+  progressFill.style.width = (pct * 100) + '%';
+
+  // Update time display
+  const total = 92 * 60 + 4; // 1:32:04 in seconds
+  const current = Math.floor(pct * total);
+  const mins = Math.floor(current / 60);
+  const secs = current % 60;
+  if (mins >= 60) {
+    const hrs = Math.floor(mins / 60);
+    const rmins = mins % 60;
+    document.getElementById('currentTime').textContent =
+      hrs + ':' + String(rmins).padStart(2,'0') + ':' + String(secs).padStart(2,'0');
+  } else {
+    document.getElementById('currentTime').textContent =
+      mins + ':' + String(secs).padStart(2,'0');
+  }
+}
+
+let dragging = false;
+progressTrack.addEventListener('mousedown', (e) => { dragging = true; updateProgress(e); });
+document.addEventListener('mousemove', (e) => { if (dragging) updateProgress(e); });
+document.addEventListener('mouseup', () => { dragging = false; });
+progressTrack.addEventListener('touchstart', (e) => { dragging = true; updateProgress(e); });
+document.addEventListener('touchmove', (e) => { if (dragging) updateProgress(e); });
+document.addEventListener('touchend', () => { dragging = false; });
+
+// Volume slider
+const volTrack = document.querySelector('.volume-track');
+const volFill = document.getElementById('volumeFill');
+volTrack.addEventListener('click', (e) => {
+  const rect = volTrack.getBoundingClientRect();
+  let pct = (e.clientX - rect.left) / rect.width;
+  pct = Math.max(0, Math.min(1, pct));
+  volFill.style.width = (pct * 100) + '%';
+});
+</script>
+
+</body>
+</html>
