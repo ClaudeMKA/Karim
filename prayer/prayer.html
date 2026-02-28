@@ -54,10 +54,21 @@ body {
 
 .phone-frame {
   width: 393px; height: 852px;
-  background: var(--bg-primary);
+  background: linear-gradient(180deg, #080a12 0%, #0a1018 40%, #081210 100%);
   border-radius: 55px; border: 3px solid #1c1c24;
   position: relative; overflow: hidden;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(212,175,85,0.03);
+}
+.phone-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 5%, rgba(59,130,246,0.18) 0%, transparent 50%),
+    radial-gradient(circle at 70% 90%, rgba(78,204,163,0.12) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 52px;
 }
 
 .dynamic-island {
@@ -95,6 +106,7 @@ body {
   height: calc(100% - 80px);
   overflow-y: auto; overflow-x: hidden;
   scrollbar-width: none; padding-bottom: 20px;
+  z-index: 1;
 }
 .main-scroll::-webkit-scrollbar { display: none; }
 
@@ -252,9 +264,15 @@ body {
   cursor: pointer; transition: var(--transition);
 }
 
+.tab-btn:hover:not(.active) {
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+}
+
 .tab-btn.active {
-  background: rgba(212,175,85,0.12);
-  color: var(--gold-primary);
+  background: linear-gradient(135deg, rgba(212,175,85,0.18), rgba(212,175,85,0.08));
+  color: var(--gold-light);
+  box-shadow: 0 2px 8px rgba(212,175,85,0.1);
 }
 
 /* Prayer rows */
@@ -273,6 +291,13 @@ body {
   cursor: pointer;
   gap: 14px;
 }
+
+/* Distinct left color bars for each prayer */
+.prayer-row.prayer-fajr { border-left: 3px solid #3b82f6; }
+.prayer-row.prayer-dhuhr { border-left: 3px solid #d4af55; }
+.prayer-row.prayer-asr { border-left: 3px solid #f59e0b; }
+.prayer-row.prayer-maghrib { border-left: 3px solid #ef4444; }
+.prayer-row.prayer-isha { border-left: 3px solid #8b5cf6; }
 
 .prayer-row:active { background: var(--bg-card-hover); }
 
@@ -342,16 +367,21 @@ body {
 }
 
 .status-done {
-  background: rgba(78,204,163,0.1); color: var(--green-primary);
+  background: rgba(78,204,163,0.18); color: #5eedb8; border: 1px solid rgba(78,204,163,0.2);
 }
 
 .status-current {
-  background: rgba(212,175,85,0.1); color: var(--gold-primary);
+  background: rgba(212,175,85,0.15); color: var(--gold-light);
+  border: 1px solid rgba(212,175,85,0.2);
   animation: pulseBadge 2s ease-in-out infinite;
 }
 
 .status-upcoming {
   background: rgba(255,255,255,0.04); color: var(--text-tertiary);
+}
+
+.status-missed {
+  background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2);
 }
 
 @keyframes pulseBadge {
@@ -477,8 +507,9 @@ body {
 }
 
 .tracker-day {
-  font-size: 10px; color: var(--text-tertiary); font-weight: 700;
+  font-size: 10px; color: var(--text-secondary); font-weight: 700;
   text-align: center; text-transform: uppercase;
+  padding-bottom: 6px; border-bottom: 1px solid var(--border-subtle);
 }
 
 .tracker-cell {
@@ -487,11 +518,11 @@ body {
   transition: var(--transition);
 }
 
-.tracker-cell.full { background: var(--green-primary); }
-.tracker-cell.partial { background: var(--orange-primary); opacity: 0.6; }
-.tracker-cell.missed { background: rgba(239,68,68,0.35); }
+.tracker-cell.full { background: #4ecca3; box-shadow: 0 0 4px rgba(78,204,163,0.25); }
+.tracker-cell.partial { background: #f59e0b; opacity: 1; box-shadow: 0 0 4px rgba(245,158,11,0.25); }
+.tracker-cell.missed { background: rgba(239,68,68,0.5); box-shadow: 0 0 4px rgba(239,68,68,0.15); }
 .tracker-cell.empty { background: rgba(255,255,255,0.03); }
-.tracker-cell.today { box-shadow: 0 0 0 1.5px var(--gold-primary); }
+.tracker-cell.today { box-shadow: 0 0 0 1.5px var(--gold-primary), 0 0 6px rgba(212,175,85,0.2); }
 
 /* ============================================
    PRAYER DETAIL SCREEN
@@ -797,7 +828,7 @@ body {
       <div class="tab-content" id="tab-obligatoires">
         <div class="prayers-list">
           <!-- Fajr - done -->
-          <div class="prayer-row done" onclick="showDetail()">
+          <div class="prayer-row done prayer-fajr" onclick="showDetail()">
             <div class="prayer-row-icon">&#x1F305;</div>
             <div class="prayer-row-info">
               <div class="prayer-row-name">Fajr <span class="ar">الفجر</span></div>
@@ -810,7 +841,7 @@ body {
           </div>
 
           <!-- Dhuhr - done -->
-          <div class="prayer-row done">
+          <div class="prayer-row done prayer-dhuhr">
             <div class="prayer-row-icon">&#x2600;&#xFE0F;</div>
             <div class="prayer-row-info">
               <div class="prayer-row-name">Dhuhr <span class="ar">الظهر</span></div>
@@ -823,7 +854,7 @@ body {
           </div>
 
           <!-- Asr - done -->
-          <div class="prayer-row done">
+          <div class="prayer-row done prayer-asr">
             <div class="prayer-row-icon">&#x1F324;&#xFE0F;</div>
             <div class="prayer-row-info">
               <div class="prayer-row-name">Asr <span class="ar">العصر</span></div>
@@ -836,7 +867,7 @@ body {
           </div>
 
           <!-- Maghrib - current -->
-          <div class="prayer-row current" onclick="showDetail()">
+          <div class="prayer-row current prayer-maghrib" onclick="showDetail()">
             <div class="prayer-row-icon">&#x1F54C;</div>
             <div class="prayer-row-info">
               <div class="prayer-row-name">Maghrib <span class="ar">المغرب</span></div>
@@ -849,7 +880,7 @@ body {
           </div>
 
           <!-- Isha - upcoming -->
-          <div class="prayer-row">
+          <div class="prayer-row prayer-isha">
             <div class="prayer-row-icon">&#x1F319;</div>
             <div class="prayer-row-info">
               <div class="prayer-row-name">Isha <span class="ar">العشاء</span></div>
@@ -1089,7 +1120,7 @@ body {
       <button class="plus-close" onclick="closePlusMenu()">&times;</button>
       <div class="plus-grid">
         <a href="../duaa/duaa.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span>Du3aa</span></a>
-        <a href="../quran/quran.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><span>Coran</span></a>
+        <a href="../profile/profile.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span>Profil</span></a>
         <a href="../hadith/hadith.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span>Hadith</span></a>
         <a href="../history/history.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span>Histoire</span></a>
         <a href="../calendar/calendar.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span>Calendrier</span></a>
@@ -1115,13 +1146,13 @@ body {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         <span>Plus</span>
       </button>
-      <button class="nav-item" onclick="window.location.href='../dhikr/dhikr.html'">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
-        <span>Dhikr</span>
+      <button class="nav-item" onclick="window.location.href='../quran/quran.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        <span>Coran</span>
       </button>
-      <button class="nav-item" onclick="window.location.href='../profile/profile.html'">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span>Profil</span>
+      <button class="nav-item" onclick="window.location.href='../dhikr/dhikr.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
+        <span>Dhikr</span>
       </button>
     </div>
   </div>

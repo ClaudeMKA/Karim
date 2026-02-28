@@ -26,13 +26,24 @@ body{
   width:393px;height:852px;
   border-radius:55px;
   border:3px solid #1c1c24;
-  background:#050507;
+  background:linear-gradient(180deg, #080a0e 0%, #081210 40%, #0a0e12 100%);
   position:relative;
   overflow:hidden;
   box-shadow:
     0 0 0 1px rgba(255,255,255,0.05),
     0 25px 80px rgba(0,0,0,0.6),
     0 0 120px rgba(212,175,85,0.03);
+}
+.phone-frame::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 60% 15%, rgba(20,184,166,0.18) 0%, transparent 50%),
+    radial-gradient(circle at 20% 60%, rgba(59,130,246,0.12) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+  border-radius:52px;
 }
 
 /* Dynamic Island */
@@ -76,6 +87,7 @@ body{
   position:absolute;
   top:0;left:0;width:100%;height:100%;
   overflow:hidden;
+  z-index:1;
 }
 .screen{
   position:absolute;
@@ -137,9 +149,33 @@ body{
   background:rgba(212,175,85,0.08);
   box-shadow:0 0 20px rgba(212,175,85,0.08);
 }
+.mood-card[data-mood="fatigue"].active{
+  border-color:#3b82f6;
+  background:rgba(59,130,246,0.08);
+  box-shadow:0 0 20px rgba(59,130,246,0.1);
+}
+.mood-card[data-mood="motive"].active{
+  border-color:#4ecca3;
+  background:rgba(78,204,163,0.08);
+  box-shadow:0 0 20px rgba(78,204,163,0.1);
+}
+.mood-card[data-mood="triste"].active{
+  border-color:#8b5cf6;
+  background:rgba(139,92,246,0.08);
+  box-shadow:0 0 20px rgba(139,92,246,0.1);
+}
+.mood-card[data-mood="reconnaissant"].active{
+  border-color:#d4af55;
+  background:rgba(212,175,85,0.08);
+  box-shadow:0 0 20px rgba(212,175,85,0.1);
+}
 .mood-emoji{font-size:26px;margin-bottom:4px;}
 .mood-label{font-size:10px;font-weight:600;color:#8e8e93;}
 .mood-card.active .mood-label{color:#d4af55;}
+.mood-card[data-mood="fatigue"].active .mood-label{color:#3b82f6;}
+.mood-card[data-mood="motive"].active .mood-label{color:#4ecca3;}
+.mood-card[data-mood="triste"].active .mood-label{color:#8b5cf6;}
+.mood-card[data-mood="reconnaissant"].active .mood-label{color:#d4af55;}
 
 /* Section */
 .section{margin-bottom:24px;}
@@ -174,6 +210,8 @@ body{
 }
 .duaa-card:hover{background:#1a1a22;transform:translateY(-1px);}
 .duaa-card:active{transform:scale(0.985);}
+.duaa-card.obligatory{border-left:3px solid #4ecca3;}
+.duaa-card.suggestion{border-left:3px solid #4ecca3;}
 .duaa-arabic{
   font-family:'Amiri',serif;
   font-size:18px;
@@ -253,6 +291,9 @@ body{
 .tracker-dot.filled{
   border-color:#4ecca3;background:#4ecca3;
   box-shadow:0 0 10px rgba(78,204,163,0.3);
+}
+.tracker-dot.missed{
+  border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.15);
 }
 .tracker-dot.today{
   border-color:#d4af55;
@@ -515,6 +556,14 @@ body{
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.2s;
 }
+.plus-icon.teal{background:linear-gradient(135deg,#4ecca3,#6ee7b7);}
+.plus-icon.blue{background:linear-gradient(135deg,#3b82f6,#60a5fa);}
+.plus-icon.purple{background:linear-gradient(135deg,#8b5cf6,#a78bfa);}
+.plus-icon.orange{background:linear-gradient(135deg,#f59e0b,#fbbf24);}
+.plus-icon.red{background:linear-gradient(135deg,#ef4444,#f87171);}
+.plus-icon.pink{background:linear-gradient(135deg,#ec4899,#f472b6);}
+.plus-icon.gold{background:linear-gradient(135deg,#d4af55,#f0d78c);}
+.plus-icon.green{background:linear-gradient(135deg,#22c55e,#4ade80);}
 .plus-icon:active { transform: scale(0.9); }
 .plus-icon svg { width: 22px; height: 22px; }
 .plus-item span {
@@ -578,7 +627,7 @@ body{
         <div class="section fade-up" style="animation-delay:0.15s">
           <div class="section-title"><span class="dot orange"></span>Du3aa obligatoires</div>
 
-          <div class="duaa-card" onclick="openDetail(0)">
+          <div class="duaa-card obligatory" onclick="openDetail(0)">
             <div class="duaa-arabic">بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</div>
             <div class="duaa-french">Au nom d'Allah, je place ma confiance en Allah. Il n'y a de force ni de puissance qu'en Allah.</div>
             <div class="duaa-card-footer">
@@ -589,7 +638,7 @@ body{
             </div>
           </div>
 
-          <div class="duaa-card" onclick="openDetail(1)">
+          <div class="duaa-card obligatory" onclick="openDetail(1)">
             <div class="duaa-arabic">الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ</div>
             <div class="duaa-french">Louange a Allah qui nous a nourris, nous a abreuves et nous a faits musulmans.</div>
             <div class="duaa-card-footer">
@@ -600,7 +649,7 @@ body{
             </div>
           </div>
 
-          <div class="duaa-card" onclick="openDetail(2)">
+          <div class="duaa-card obligatory" onclick="openDetail(2)">
             <div class="duaa-arabic">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</div>
             <div class="duaa-french">En Ton nom, O Allah, je meurs et je vis.</div>
             <div class="duaa-card-footer">
@@ -652,7 +701,7 @@ body{
             <div class="tracker-day"><div class="tracker-day-label">L</div><div class="tracker-dot filled"></div></div>
             <div class="tracker-day"><div class="tracker-day-label">M</div><div class="tracker-dot filled"></div></div>
             <div class="tracker-day"><div class="tracker-day-label">M</div><div class="tracker-dot filled"></div></div>
-            <div class="tracker-day"><div class="tracker-day-label">J</div><div class="tracker-dot"></div></div>
+            <div class="tracker-day"><div class="tracker-day-label">J</div><div class="tracker-dot missed"></div></div>
             <div class="tracker-day"><div class="tracker-day-label">V</div><div class="tracker-dot filled"></div></div>
             <div class="tracker-day"><div class="tracker-day-label">S</div><div class="tracker-dot today"></div></div>
             <div class="tracker-day"><div class="tracker-day-label">D</div><div class="tracker-dot"></div></div>
@@ -733,14 +782,14 @@ body{
     <div class="plus-container" onclick="event.stopPropagation()">
       <button class="plus-close" onclick="closePlusMenu()">&times;</button>
       <div class="plus-grid">
-        <a href="../duaa/duaa.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span>Du3aa</span></a>
-        <a href="../quran/quran.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><span>Coran</span></a>
-        <a href="../hadith/hadith.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span>Hadith</span></a>
-        <a href="../history/history.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span>Histoire</span></a>
-        <a href="../calendar/calendar.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span>Calendrier</span></a>
-        <a href="../challenges/challenges.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg></div><span>Defis</span></a>
-        <a href="../names/names.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span>99 Noms</span></a>
-        <a href="../media/media.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span>Medias</span></a>
+        <a href="../duaa/duaa.html" class="plus-item"><div class="plus-icon teal"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span>Du3aa</span></a>
+        <a href="../profile/profile.html" class="plus-item"><div class="plus-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span>Profil</span></a>
+        <a href="../hadith/hadith.html" class="plus-item"><div class="plus-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span>Hadith</span></a>
+        <a href="../history/history.html" class="plus-item"><div class="plus-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span>Histoire</span></a>
+        <a href="../calendar/calendar.html" class="plus-item"><div class="plus-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span>Calendrier</span></a>
+        <a href="../challenges/challenges.html" class="plus-item"><div class="plus-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg></div><span>Defis</span></a>
+        <a href="../names/names.html" class="plus-item"><div class="plus-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span>99 Noms</span></a>
+        <a href="../media/media.html" class="plus-item"><div class="plus-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span>Medias</span></a>
       </div>
     </div>
   </div>
@@ -759,13 +808,13 @@ body{
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       <span>Plus</span>
     </div>
+    <div class="nav-item" onclick="window.location.href='../quran/quran.html'" style="cursor:pointer">
+      <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      <span>Coran</span>
+    </div>
     <div class="nav-item" onclick="window.location.href='../dhikr/dhikr.html'" style="cursor:pointer">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
       <span>Dhikr</span>
-    </div>
-    <div class="nav-item" onclick="window.location.href='../profile/profile.html'" style="cursor:pointer">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>Profil</span>
     </div>
   </div>
 </div>
@@ -894,15 +943,25 @@ function selectMood(el) {
   renderSuggestions(el.dataset.mood);
 }
 
+// Mood color map
+const moodColors = {
+  fatigue: '#3b82f6',
+  motive: '#4ecca3',
+  triste: '#8b5cf6',
+  reconnaissant: '#d4af55'
+};
+
 // Render Suggestions
 function renderSuggestions(mood) {
   const container = document.getElementById('suggestions-container');
   const items = moodSuggestions[mood] || moodSuggestions.motive;
+  const moodColor = moodColors[mood] || '#4ecca3';
   container.innerHTML = '';
   items.forEach((item, i) => {
     const card = document.createElement('div');
-    card.className = 'duaa-card fade-up';
+    card.className = 'duaa-card suggestion fade-up';
     card.style.animationDelay = (i * 0.06) + 's';
+    card.style.borderLeftColor = moodColor;
     card.onclick = () => openSuggestionDetail(item);
     card.innerHTML = `
       <div class="duaa-arabic">${item.arabic}</div>

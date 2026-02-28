@@ -12,7 +12,8 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .label{color:#8e8e93;font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-top:24px;font-weight:500;}
 
 /* Phone Frame */
-.phone{width:393px;height:852px;border-radius:55px;border:3px solid #1c1c24;background:#050507;position:relative;overflow:hidden;box-shadow:0 0 0 2px #0a0a0f,0 30px 80px rgba(0,0,0,.7),0 0 120px rgba(212,175,85,.04);flex-shrink:0;}
+.phone{width:393px;height:852px;border-radius:55px;border:3px solid #1c1c24;background:linear-gradient(180deg, #0a0a10 0%, #121018 40%, #0a100e 100%);position:relative;overflow:hidden;box-shadow:0 0 0 2px #0a0a0f,0 30px 80px rgba(0,0,0,.7),0 0 120px rgba(212,175,85,.04);flex-shrink:0;}
+.phone::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 10%, rgba(212,175,85,0.21) 0%, transparent 50%),radial-gradient(circle at 30% 70%, rgba(78,204,163,0.12) 0%, transparent 50%);pointer-events:none;z-index:0;border-radius:52px;}
 
 /* Dynamic Island */
 .dynamic-island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:36px;background:#0a0a0f;border-radius:20px;z-index:100;border:1px solid rgba(255,255,255,.06);}
@@ -21,8 +22,8 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;background:rgba(245,245,247,.2);border-radius:3px;z-index:100;}
 
 /* Screen Container */
-.screen-area{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;}
-.screen{position:absolute;top:0;left:0;width:100%;height:100%;background:#050507;transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .45s cubic-bezier(.4,0,.2,1);will-change:transform,opacity;}
+.screen-area{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:1;}
+.screen{position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .45s cubic-bezier(.4,0,.2,1);will-change:transform,opacity;}
 .screen.hidden-right{transform:translateX(100%);opacity:0;pointer-events:none;}
 .screen.hidden-left{transform:translateX(-30%);opacity:.5;pointer-events:none;}
 .screen.active{transform:translateX(0);opacity:1;pointer-events:auto;}
@@ -46,13 +47,14 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .s1-search-btn:hover{background:#1a1a22;}
 
 /* Daily Goal Card */
-.goal-card{margin:0 20px 14px;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(212,175,85,.12) 0%,rgba(212,175,85,.04) 100%);border:1px solid rgba(212,175,85,.15);display:flex;align-items:center;gap:16px;}
+.goal-card{margin:0 20px 14px;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(212,175,85,.12) 0%,rgba(212,175,85,.04) 100%);border:2px solid transparent;background-clip:padding-box;display:flex;align-items:center;gap:16px;position:relative;}
+.goal-card::before{content:'';position:absolute;inset:0;border-radius:18px;padding:2px;background:linear-gradient(135deg,rgba(212,175,85,.4),rgba(240,215,140,.3),rgba(212,175,85,.4));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;}
 .goal-ring{position:relative;width:58px;height:58px;flex-shrink:0;}
 .goal-ring svg{width:58px;height:58px;transform:rotate(-90deg);}
 .goal-ring circle{fill:none;stroke-width:4;}
 .goal-ring .bg{stroke:rgba(212,175,85,.15);}
-.goal-ring .fg{stroke:#d4af55;stroke-linecap:round;stroke-dasharray:160;stroke-dashoffset:48;transition:stroke-dashoffset 1s ease;}
-.goal-ring .pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;font-weight:700;color:#d4af55;}
+.goal-ring .fg{stroke:#4ecca3;stroke-linecap:round;stroke-dasharray:160;stroke-dashoffset:48;transition:stroke-dashoffset 1s ease;}
+.goal-ring .pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;font-weight:700;color:#4ecca3;}
 .goal-info h4{font-size:13px;font-weight:600;color:#f5f5f7;margin-bottom:3px;}
 .goal-info p{font-size:11px;color:#8e8e93;line-height:1.4;}
 
@@ -82,7 +84,7 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .surah-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .15s;border-radius:8px;padding-left:4px;padding-right:4px;}
 .surah-item:hover{background:rgba(255,255,255,.03);}
 .surah-item:active{background:rgba(255,255,255,.06);}
-.surah-num{width:38px;height:38px;border-radius:50%;background:rgba(212,175,85,.1);border:1px solid rgba(212,175,85,.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#d4af55;flex-shrink:0;}
+.surah-num{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(212,175,85,.15),rgba(240,215,140,.1));border:1px solid rgba(212,175,85,.25);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#f0d78c;flex-shrink:0;}
 .surah-info{flex:1;min-width:0;}
 .surah-name-row{display:flex;align-items:baseline;gap:6px;margin-bottom:3px;}
 .surah-fr{font-size:14px;font-weight:600;color:#f5f5f7;}
@@ -90,8 +92,8 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .surah-meta{display:flex;align-items:center;gap:8px;}
 .surah-verses{font-size:11px;color:#8e8e93;}
 .surah-badge{font-size:9px;padding:2px 8px;border-radius:6px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
-.surah-badge.mecquoise{background:rgba(212,175,85,.1);color:#d4af55;border:1px solid rgba(212,175,85,.15);}
-.surah-badge.medinoise{background:rgba(78,204,163,.1);color:#4ecca3;border:1px solid rgba(78,204,163,.15);}
+.surah-badge.mecquoise{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2);}
+.surah-badge.medinoise{background:rgba(78,204,163,.1);color:#4ecca3;border:1px solid rgba(78,204,163,.2);}
 
 /* ======================== */
 /* SCREEN 2: SURAH READER   */
@@ -118,13 +120,13 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .verse-block{margin-bottom:24px;cursor:pointer;padding:12px;border-radius:14px;transition:background .2s;}
 .verse-block:hover{background:rgba(255,255,255,.02);}
 .verse-block:active{background:rgba(255,255,255,.05);}
-.verse-arabic{font-family:'Amiri',serif;font-size:22px;color:rgba(245,245,247,.92);direction:rtl;text-align:right;line-height:2.1;position:relative;padding-right:4px;}
+.verse-arabic{font-family:'Amiri',serif;font-size:22px;color:#f0d78c;direction:rtl;text-align:right;line-height:2.1;position:relative;padding-right:4px;}
 .verse-number{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(212,175,85,.12);border:1px solid rgba(212,175,85,.25);font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#d4af55;margin-right:6px;vertical-align:middle;direction:ltr;}
-.verse-translation{font-size:12.5px;color:#8e8e93;line-height:1.7;margin-top:8px;padding-left:4px;border-left:2px solid rgba(255,255,255,.06);padding-left:12px;}
+.verse-translation{font-size:12.5px;color:#a1a1aa;line-height:1.7;margin-top:8px;padding-left:4px;border-left:2px solid rgba(255,255,255,.08);padding-left:12px;}
 
 /* Audio Player */
 .audio-player{position:absolute;bottom:72px;left:12px;right:12px;height:58px;border-radius:16px;background:rgba(19,19,24,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 14px;gap:10px;z-index:50;}
-.ap-play{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity .2s;border:none;color:#050507;}
+.ap-play{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4ecca3,#6ee7b7);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity .2s;border:none;color:#050507;box-shadow:0 2px 12px rgba(78,204,163,.3);}
 .ap-play:hover{opacity:.85;}
 .ap-play svg{width:16px;height:16px;}
 .ap-info{flex:1;min-width:0;}
@@ -145,7 +147,7 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .s3-placeholder{width:38px;}
 
 /* Large Arabic Text */
-.verse-detail-arabic{text-align:center;padding:28px 24px;font-family:'Amiri',serif;font-size:28px;color:#f5f5f7;direction:rtl;line-height:2;text-shadow:0 0 40px rgba(212,175,85,.08);}
+.verse-detail-arabic{text-align:center;padding:28px 24px;font-family:'Amiri',serif;font-size:28px;color:#f0d78c;direction:rtl;line-height:2;text-shadow:0 0 40px rgba(212,175,85,.15);}
 
 /* Translation Card */
 .detail-card{margin:0 20px 14px;padding:16px 18px;border-radius:16px;background:#131318;border:1px solid rgba(255,255,255,.06);}
@@ -155,7 +157,7 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .detail-card p{font-size:12.5px;line-height:1.7;color:#8e8e93;}
 
 /* Tafsir Card */
-.tafsir-card{margin:0 20px 14px;padding:16px 18px;border-radius:16px;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.12);}
+.tafsir-card{margin:0 20px 14px;padding:16px 18px;border-radius:16px;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.15);border-left:3px solid #8b5cf6;}
 .tafsir-card .icon{background:rgba(139,92,246,.15);color:#8b5cf6;}
 .tafsir-card h4{color:#8b5cf6;}
 .tafsir-card p{font-size:12px;line-height:1.7;color:#8e8e93;}
@@ -242,6 +244,14 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
 .nav-plus-btn .nav-icon { color: #d4af55 !important; }
 .nav-plus-btn .nav-icon svg { stroke: #d4af55 !important; }
 .nav-plus-btn .nav-label { color: #d4af55 !important; }
+.plus-icon.teal{background:linear-gradient(135deg,#4ecca3,#6ee7b7);}
+.plus-icon.blue{background:linear-gradient(135deg,#3b82f6,#60a5fa);}
+.plus-icon.purple{background:linear-gradient(135deg,#8b5cf6,#a78bfa);}
+.plus-icon.orange{background:linear-gradient(135deg,#f59e0b,#fbbf24);}
+.plus-icon.red{background:linear-gradient(135deg,#ef4444,#f87171);}
+.plus-icon.pink{background:linear-gradient(135deg,#ec4899,#f472b6);}
+.plus-icon.gold{background:linear-gradient(135deg,#d4af55,#f0d78c);}
+.plus-icon.green{background:linear-gradient(135deg,#22c55e,#4ade80);}
 </style>
 </head>
 <body>
@@ -419,13 +429,13 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
           <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
           <span class="nav-label">Plus</span>
         </button>
-        <button class="nav-tab inactive" onclick="window.location.href='../dhikr/dhikr.html'">
-          <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg></span>
-          <span class="nav-label">Dhikr</span>
+        <button class="nav-tab active" onclick="window.location.href='../quran/quran.html'">
+          <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></span>
+          <span class="nav-label">Coran</span>
         </button>
-        <button class="nav-tab inactive" onclick="window.location.href='../profile/profile.html'">
-          <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-          <span class="nav-label">Profil</span>
+        <button class="nav-tab inactive" onclick="window.location.href='../dhikr/dhikr.html'">
+          <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg></span>
+          <span class="nav-label">Dhikr</span>
         </button>
       </div>
     </div>
@@ -489,8 +499,8 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
         <button class="nav-tab inactive" onclick="window.location.href='../home/dashboard.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="nav-label">Accueil</span></button>
         <button class="nav-tab inactive" onclick="window.location.href='../prayer/prayer.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg></span><span class="nav-label">Priere</span></button>
         <button class="nav-tab nav-plus-btn" onclick="openPlusMenu()"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span class="nav-label">Plus</span></button>
+        <button class="nav-tab active" onclick="window.location.href='../quran/quran.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></span><span class="nav-label">Coran</span></button>
         <button class="nav-tab inactive" onclick="window.location.href='../dhikr/dhikr.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg></span><span class="nav-label">Dhikr</span></button>
-        <button class="nav-tab inactive" onclick="window.location.href='../profile/profile.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="nav-label">Profil</span></button>
       </div>
     </div>
 
@@ -575,8 +585,8 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
         <button class="nav-tab inactive" onclick="window.location.href='../home/dashboard.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="nav-label">Accueil</span></button>
         <button class="nav-tab inactive" onclick="window.location.href='../prayer/prayer.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C12 2 8 6 8 10c0 2.21 1.79 4 4 4s4-1.79 4-4c0-4-4-8-4-8z"/><path d="M5 14h14"/><path d="M6 14v7h12v-7"/><path d="M10 21v-4h4v4"/></svg></span><span class="nav-label">Priere</span></button>
         <button class="nav-tab nav-plus-btn" onclick="openPlusMenu()"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span class="nav-label">Plus</span></button>
+        <button class="nav-tab active" onclick="window.location.href='../quran/quran.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></span><span class="nav-label">Coran</span></button>
         <button class="nav-tab inactive" onclick="window.location.href='../dhikr/dhikr.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg></span><span class="nav-label">Dhikr</span></button>
-        <button class="nav-tab inactive" onclick="window.location.href='../profile/profile.html'"><span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span class="nav-label">Profil</span></button>
       </div>
     </div>
 
@@ -587,14 +597,14 @@ body{background:#18181b;display:flex;flex-direction:column;align-items:center;ju
     <div class="plus-container" onclick="event.stopPropagation()">
       <button class="plus-close" onclick="closePlusMenu()">&times;</button>
       <div class="plus-grid">
-        <a href="../duaa/duaa.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span>Du3aa</span></a>
-        <a href="../quran/quran.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><span>Coran</span></a>
-        <a href="../hadith/hadith.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span>Hadith</span></a>
-        <a href="../history/history.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span>Histoire</span></a>
-        <a href="../calendar/calendar.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span>Calendrier</span></a>
-        <a href="../challenges/challenges.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg></div><span>Defis</span></a>
-        <a href="../names/names.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span>99 Noms</span></a>
-        <a href="../media/media.html" class="plus-item"><div class="plus-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span>Medias</span></a>
+        <a href="../duaa/duaa.html" class="plus-item"><div class="plus-icon teal"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span>Du3aa</span></a>
+        <a href="../profile/profile.html" class="plus-item"><div class="plus-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span>Profil</span></a>
+        <a href="../hadith/hadith.html" class="plus-item"><div class="plus-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span>Hadith</span></a>
+        <a href="../history/history.html" class="plus-item"><div class="plus-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span>Histoire</span></a>
+        <a href="../calendar/calendar.html" class="plus-item"><div class="plus-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span>Calendrier</span></a>
+        <a href="../challenges/challenges.html" class="plus-item"><div class="plus-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg></div><span>Defis</span></a>
+        <a href="../names/names.html" class="plus-item"><div class="plus-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span>99 Noms</span></a>
+        <a href="../media/media.html" class="plus-item"><div class="plus-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span>Medias</span></a>
       </div>
     </div>
   </div>

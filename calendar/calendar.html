@@ -36,10 +36,21 @@ body {
   height: 852px;
   border-radius: 55px;
   border: 3px solid #1c1c24;
-  background: #050507;
+  background: linear-gradient(180deg, #0a0608 0%, #12080a 40%, #0a0a10 100%);
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 0 1px #0a0a10, 0 30px 80px rgba(0,0,0,.55);
+}
+.phone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(239,68,68,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(212,175,85,0.12) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 52px;
 }
 
 .dynamic-island {
@@ -74,6 +85,8 @@ body {
   overflow-y: auto;
   padding: 58px 0 90px;
   scrollbar-width: none;
+  position: relative;
+  z-index: 1;
 }
 .screen::-webkit-scrollbar { display:none; }
 
@@ -752,6 +765,77 @@ body {
   stroke-linejoin: round;
 }
 
+/* Enhanced Countdown Cards */
+.countdown-card.gold-border {
+  box-shadow: 0 0 25px rgba(212,175,85,0.15);
+}
+.countdown-card.purple-border {
+  border-color: transparent;
+  background-clip: padding-box;
+  box-shadow: 0 0 25px rgba(139,92,246,0.15);
+}
+.countdown-card.purple-border::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 19px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #c4b5fd 50%, #8b5cf6 100%);
+  z-index: -1;
+}
+.countdown-card.purple-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: #131318;
+  z-index: -1;
+}
+.countdown-card.green-border {
+  border-color: transparent;
+  background-clip: padding-box;
+  box-shadow: 0 0 25px rgba(78,204,163,0.15);
+}
+.countdown-card.green-border::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 19px;
+  background: linear-gradient(135deg, #4ecca3 0%, #8ee8c8 50%, #4ecca3 100%);
+  z-index: -1;
+}
+.countdown-card.green-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: #131318;
+  z-index: -1;
+}
+
+/* Gold month navigation arrows */
+.month-nav button {
+  color: #d4af55;
+  border-color: rgba(212,175,85,0.25);
+}
+.month-nav button:hover {
+  border-color: rgba(212,175,85,0.4);
+  background: rgba(212,175,85,0.08);
+}
+
+/* Larger month name */
+.hijri-month { font-size: 30px; }
+
+/* Friday green text */
+.weekday:nth-child(5) { color: #4ecca3; }
+
+/* Blue fasting dots */
+.day .dot.blue { background: #3b82f6; }
+
+/* Event card colored left borders */
+.event-card.gold-left { border-left: 3px solid #d4af55; }
+.event-card.purple-left { border-left: 3px solid #8b5cf6; }
+.event-card.green-left { border-left: 3px solid #4ecca3; }
+
 /* Plus Menu Animations */
 @keyframes plusFadeIn{from{opacity:0}to{opacity:1}}
 @keyframes plusSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -799,7 +883,7 @@ body {
           <div class="countdown-unit">jours</div>
         </div>
 
-        <div class="countdown-card">
+        <div class="countdown-card purple-border">
           <div class="countdown-emoji">&#10024;</div>
           <div class="countdown-name">Nuit du Destin</div>
           <div class="countdown-days">dans 54 jours</div>
@@ -807,7 +891,7 @@ body {
           <div class="countdown-unit">jours</div>
         </div>
 
-        <div class="countdown-card">
+        <div class="countdown-card green-border">
           <div class="countdown-emoji">&#127879;</div>
           <div class="countdown-name">Aid Al-Fitr</div>
           <div class="countdown-days">dans 58 jours</div>
@@ -868,7 +952,7 @@ body {
     <div class="section-title">Evenements a venir <span class="ar-title">الاحداث القادمة</span></div>
     <div class="events-list">
 
-      <div class="event-card" onclick="toggleEvent(this)">
+      <div class="event-card gold-left" onclick="toggleEvent(this)">
         <div class="event-top">
           <div class="event-date-badge gold">
             <div class="event-date-day">1</div>
@@ -888,7 +972,7 @@ body {
         </div>
       </div>
 
-      <div class="event-card" onclick="toggleEvent(this)">
+      <div class="event-card purple-left" onclick="toggleEvent(this)">
         <div class="event-top">
           <div class="event-date-badge purple">
             <div class="event-date-day">27</div>
@@ -908,7 +992,7 @@ body {
         </div>
       </div>
 
-      <div class="event-card" onclick="toggleEvent(this)">
+      <div class="event-card green-left" onclick="toggleEvent(this)">
         <div class="event-top">
           <div class="event-date-badge green">
             <div class="event-date-day">1</div>
@@ -987,17 +1071,17 @@ body {
     <div class="nav-tab" onclick="togglePlusMenu()" style="cursor:pointer;">
       <div class="nav-plus">+</div>
     </div>
+    <a href="../quran/quran.html" class="nav-tab" style="text-decoration:none;">
+      <div class="nav-icon">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      </div>
+      <div class="nav-label">Coran</div>
+    </a>
     <a href="../dhikr/dhikr.html" class="nav-tab" style="text-decoration:none;">
       <div class="nav-icon">
         <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M12 9v3"/><path d="M8.5 16.5L10.5 12"/><path d="M15.5 16.5L13.5 12"/><circle cx="12" cy="12" r="1.5"/></svg>
       </div>
       <div class="nav-label">Dhikr</div>
-    </a>
-    <a href="../profile/profile.html" class="nav-tab" style="text-decoration:none;">
-      <div class="nav-icon">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </div>
-      <div class="nav-label">Profil</div>
     </a>
   </div>
 
@@ -1011,14 +1095,14 @@ body {
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:8px;">
-      <a href="../duaa/duaa.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Du3aa</span></a>
-      <a href="../quran/quran.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Coran</span></a>
-      <a href="../hadith/hadith.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Hadith</span></a>
-      <a href="../history/history.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Histoire</span></a>
-      <a href="../calendar/calendar.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Calendrier</span></a>
-      <a href="../challenges/challenges.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Defis</span></a>
-      <a href="../names/names.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">99 Noms</span></a>
-      <a href="../media/media.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Medias</span></a>
+      <a href="../duaa/duaa.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#d4af55,#f0d78c,#d4af55);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#14b8a6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11c0-2 1-4 3-5.5M17 11c0-2-1-4-3-5.5"/><path d="M12 5.5V3"/><path d="M7 11c-2 0-4 1.5-4 4s1 4 4 5"/><path d="M17 11c2 0 4 1.5 4 4s-1 4-4 5"/><path d="M7 20h10"/></svg></div><span style="font-size:11px;color:#14b8a6;font-family:Inter,sans-serif;">Du3aa</span></a>
+      <a href="../profile/profile.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;background:rgba(59,130,246,0.08);border:1.5px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span style="font-size:11px;color:#3b82f6;font-family:Inter,sans-serif;">Profil</span></a>
+      <a href="../hadith/hadith.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h12a2 2 0 002-2v-2H10v2a2 2 0 01-2 2zm0 0a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v12"/><path d="M12 7h6"/><path d="M12 11h6"/><path d="M12 15h3"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Hadith</span></a>
+      <a href="../history/history.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18"/><path d="M6 18v4"/><path d="M18 18v4"/><path d="M6 18h12"/><path d="M6 14V6l6-4 6 4v8"/><circle cx="12" cy="10" r="2"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Histoire</span></a>
+      <a href="../calendar/calendar.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Calendrier</span></a>
+      <a href="../challenges/challenges.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M4 5h16v4a6 6 0 01-6 6h-4a6 6 0 01-6-6V5z"/><path d="M10 15v2"/><path d="M14 15v2"/><path d="M7 17h10a1 1 0 011 1v2H6v-2a1 1 0 011-1z"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Defis</span></a>
+      <a href="../names/names.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">99 Noms</span></a>
+      <a href="../media/media.html" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;"><div style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div><span style="font-size:11px;color:rgba(255,255,255,0.7);font-family:Inter,sans-serif;">Medias</span></a>
     </div>
   </div>
 </div>
@@ -1054,7 +1138,7 @@ function buildCalendar() {
     else if (isDimmed) classes += ' dimmed';
 
     let dot = '';
-    if (isFasting && !isToday) dot = '<div class="dot green"></div>';
+    if (isFasting && !isToday) dot = '<div class="dot blue"></div>';
     if (isImportant && !isToday) dot = '<div class="dot gold"></div>';
 
     html += `<div class="${classes}">${d}${dot}</div>`;
@@ -1095,6 +1179,7 @@ function closePlusMenu(event) {
   }
 }
 </script>
+<script src="../shared-plus-menu-colors.js"></script>
 
 </body>
 </html>
